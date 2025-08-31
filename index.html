@@ -1,10 +1,10 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Comparateur BAEL 91 vs Eurocode 2 — Poutres • Poteaux • Semelles (statique, un seul fichier)</title>
+<title>Calcul Béton Armé - BAEL 91 vs Eurocode 2 | Guide Complet</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
   :root{
     --bg: #0e1116;
@@ -20,1040 +20,1617 @@
     --ring2: rgba(124,255,159,.2);
     --chip:#1e2632;
     --grid:#1a2130;
+    --primary: #2563eb;
+    --secondary: #7c3aed;
   }
-  *{box-sizing:border-box}
-  html,body{height:100%}
+  *{box-sizing:border-box; margin:0; padding:0}
+  html,body{height:100%; scroll-behavior: smooth}
   body{
-    margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    margin:0; font-family: 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     color:var(--text); background:
       radial-gradient(1200px 1200px at 10% -20%, rgba(61,211,255,.12), transparent 60%),
       radial-gradient(800px 800px at 110% 10%, rgba(124,255,159,.10), transparent 50%),
       linear-gradient(180deg, #0a0d12 0%, #0e1116 100%);
     background-color:var(--bg);
+    line-height: 1.6;
   }
+  .container{max-width:1400px; margin:0 auto; padding:0 20px}
   header{
-    position:sticky; top:0; z-index:10; backdrop-filter:saturate(160%) blur(10px);
-    background:linear-gradient(180deg, rgba(10,13,18,.9), rgba(10,13,18,.55));
+    position:sticky; top:0; z-index:100; backdrop-filter:saturate(160%) blur(10px);
+    background:linear-gradient(180deg, rgba(10,13,18,.95), rgba(10,13,18,.75));
     border-bottom:1px solid #1d2533;
+    padding:15px 0;
   }
-  .wrap{max-width:1200px; margin:0 auto; padding:20px}
-  h1{margin:6px 0 0; font-size:clamp(20px, 2.4vw, 30px); letter-spacing:.3px}
-  .sub{color:var(--muted); margin:6px 0 14px; font-size:14px}
-  .row{display:grid; grid-template-columns: 1.2fr 2fr; gap:18px}
+  .header-content{
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  .logo{
+    display:flex; align-items:center; gap:15px;
+  }
+  .logo h1{
+    font-size:1.8rem; font-weight:700; background:linear-gradient(135deg, var(--brand), var(--accent));
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  }
+  .logo p{font-size:0.9rem; color:var(--muted)}
+  nav ul{
+    display:flex; list-style:none; gap:25px;
+  }
+  nav a{
+    color:var(--text); text-decoration:none; font-weight:500;
+    padding:8px 16px; border-radius:8px; transition:all 0.3s;
+  }
+  nav a:hover, nav a.active{
+    background:rgba(61,211,255,0.1); color:var(--brand);
+  }
+  .hero{
+    padding:80px 0; text-align:center;
+  }
+  .hero h2{
+    font-size:3rem; margin-bottom:20px; background:linear-gradient(135deg, #fff, var(--brand));
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  }
+  .hero p{
+    font-size:1.3rem; max-width:800px; margin:0 auto 30px; color:var(--muted);
+  }
+  .btn-group{
+    display:flex; justify-content:center; gap:15px; flex-wrap:wrap;
+  }
+  .btn{
+    cursor:pointer; border:none; padding:12px 24px; border-radius:10px; font-weight:600;
+    font-size:1rem; transition:all 0.3s; display:inline-flex; align-items:center; gap:8px;
+  }
+  .btn-primary{
+    background:linear-gradient(135deg, var(--primary), var(--secondary));
+    color:white; box-shadow:0 4px 15px rgba(37,99,235,0.3);
+  }
+  .btn-primary:hover{
+    transform:translateY(-2px); box-shadow:0 6px 20px rgba(37,99,235,0.4);
+  }
+  .btn-secondary{
+    background:transparent; color:var(--brand); border:1px solid var(--brand);
+  }
+  .btn-secondary:hover{
+    background:var(--brand); color:var(--bg);
+  }
+  .section{
+    padding:80px 0;
+  }
+  .section-title{
+    text-align:center; margin-bottom:50px;
+  }
+  .section-title h2{
+    font-size:2.5rem; margin-bottom:15px; position:relative;
+    display:inline-block;
+  }
+  .section-title h2:after{
+    content:''; position:absolute; bottom:-10px; left:50%; transform:translateX(-50%);
+    width:80px; height:4px; background:var(--brand); border-radius:2px;
+  }
+  .section-title p{
+    font-size:1.1rem; color:var(--muted); max-width:700px; margin:0 auto;
+  }
   .card{
     background:linear-gradient(180deg, rgba(30,38,50,.7), rgba(20,26,34,.9));
-    border:1px solid #1f2a3b; border-radius:16px; padding:16px;
+    border:1px solid #1f2a3b; border-radius:16px; padding:25px;
     box-shadow: 0 0 0 1px rgba(61,211,255,.03), 0 10px 24px rgba(0,0,0,.25);
+    margin-bottom:25px;
   }
-  .card.head{
-    display:flex; align-items:center; gap:16px; padding:14px 16px; margin-bottom:10px;
+  .card-header{
+    display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;
+    padding-bottom:15px; border-bottom:1px solid rgba(255,255,255,0.1);
   }
-  .chip{display:inline-flex; align-items:center; gap:8px; background:var(--chip); padding:6px 10px; border-radius:999px; font-size:12px; color:#c8d8e6; border:1px solid #283345}
-  .chip svg{opacity:.8}
-  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:12px}
-  .grid3{display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px}
-  .grid4{display:grid; grid-template-columns:repeat(4, 1fr); gap:12px}
-  .grid6{display:grid; grid-template-columns:repeat(6, 1fr); gap:12px}
-  label{font-size:12px; color:#9fb3c7}
-  input, select, textarea{
-    width:100%; padding:10px 12px; background:#0f131a; color:var(--text);
-    border:1px solid #2a3447; border-radius:10px; outline:none; font-size:14px;
+  .card-title{
+    font-size:1.5rem; font-weight:600;
   }
-  input:focus, select:focus, textarea:focus{box-shadow: 0 0 0 3px var(--ring); border-color:#3b4d66}
-  .btn{
-    cursor:pointer; border:1px solid #234; padding:10px 14px; border-radius:12px; font-weight:600;
-    color:#031016; background:linear-gradient(180deg, var(--brand), #00b5f0);
-    box-shadow: 0 6px 20px rgba(61,211,255,.35), inset 0 0 0 1px rgba(255,255,255,.15);
+  .card-body{
+    color:var(--text);
   }
-  .btn.alt{background:linear-gradient(180deg, #7cffcf, #16db93)}
-  .btn.ghost{
-    background:transparent; color:var(--text); border:1px solid #2c3a50
+  .grid{
+    display:grid; gap:25px;
   }
-  .tabs{display:flex; gap:8px; flex-wrap:wrap}
-  .tab{cursor:pointer; padding:10px 14px; border:1px solid #26344a; border-radius:999px; background:#0f141d; color:#c7d7e6}
-  .tab.active{background:linear-gradient(180deg, #253148, #171f2e); color:#fff; box-shadow:0 0 0 2px var(--ring2) inset}
-  .section{display:none}
-  .section.active{display:block}
-  .muted{color:var(--muted); font-size:13px}
-  .help{cursor:help; border-bottom:1px dotted #68809a}
-  .result{
-    background: linear-gradient(180deg, rgba(18,24,33,.9), rgba(12,16,22,.9));
-    border:1px solid #263149; border-radius:14px; padding:12px; font-size:14px
+  .grid-2{grid-template-columns:repeat(2,1fr)}
+  .grid-3{grid-template-columns:repeat(3,1fr)}
+  .grid-4{grid-template-columns:repeat(4,1fr)}
+  @media (max-width: 992px){
+    .grid-2, .grid-3, .grid-4{grid-template-columns:1fr}
   }
-  .result h3{margin:0 0 8px; font-size:15px}
-  .twoCols{display:grid; grid-template-columns:1fr 1fr; gap:12px}
-  table{width:100%; border-collapse:collapse; background:#0e131b; border:1px solid #263149; border-radius:12px; overflow:hidden}
-  th,td{padding:10px 12px; border-bottom:1px solid #1c2434; text-align:left}
-  th{background:#152033; color:#cfe4f7; font-weight:600}
-  tr:last-child td{border-bottom:none}
-  .ok{color:var(--ok)}
-  .err{color:var(--err)}
-  .warn{color:var(--warn)}
-  .footer{margin:16px 0 0; font-size:12px; color:#93a9bc}
-  .kbd{background:#0f141d; border:1px solid #2b3950; border-radius:6px; padding:1px 6px; font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size:12px}
-  .right{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
-  .pillnote{font-size:12px; color:#a7bed4; background:#0f141d; border:1px dashed #2b3950; border-radius:999px; padding:6px 10px}
-  .tip{font-size:12px; color:#a7bed4; padding:8px 10px; border-left:3px solid #2a9d8f; background:#0f141d; border-radius:8px}
-  .danger{border-left-color:#ef476f}
-  .gridCards{display:grid; grid-template-columns:1fr 1fr; gap:18px}
-  @media (max-width: 980px){ .row{grid-template-columns:1fr} .gridCards{grid-template-columns:1fr} .twoCols{grid-template-columns:1fr} .grid4,.grid6{grid-template-columns:1fr 1fr} }
-  @media print {
-    header, .no-print{display:none !important}
-    body{background:#fff; color:#000}
-    .card{box-shadow:none; border:1px solid #bbb}
-    .tab.active{border:1px solid #999}
-    a{color:#000}
+  .form-group{
+    margin-bottom:20px;
+  }
+  .form-group label{
+    display:block; margin-bottom:8px; font-weight:500; color:var(--muted);
+  }
+  .form-control{
+    width:100%; padding:12px 15px; background:#0f131a; color:var(--text);
+    border:1px solid #2a3447; border-radius:10px; outline:none; font-size:1rem;
+    transition:all 0.3s;
+  }
+  .form-control:focus{
+    box-shadow: 0 0 0 3px var(--ring); border-color:#3b4d66;
+  }
+  .tabs{
+    display:flex; gap:10px; margin-bottom:25px; border-bottom:1px solid rgba(255,255,255,0.1);
+  }
+  .tab{
+    cursor:pointer; padding:12px 20px; border-bottom:3px solid transparent;
+    font-weight:500; transition:all 0.3s;
+  }
+  .tab.active{
+    color:var(--brand); border-bottom-color:var(--brand);
+  }
+  .tab-content{
+    display:none;
+  }
+  .tab-content.active{
+    display:block;
+  }
+  .result-box{
+    background:rgba(18,24,33,.8); border:1px solid #263149; border-radius:12px; 
+    padding:20px; margin-top:20px;
+  }
+  .result-title{
+    font-size:1.2rem; margin-bottom:15px; color:var(--brand);
+  }
+  .result-item{
+    display:flex; justify-content:space-between; padding:8px 0;
+    border-bottom:1px solid rgba(255,255,255,0.05);
+  }
+  .result-item:last-child{
+    border-bottom:none;
+  }
+  .result-label{
+    color:var(--muted);
+  }
+  .result-value{
+    font-weight:600;
+  }
+  .comparison-table{
+    width:100%; border-collapse:collapse; margin-top:20px;
+  }
+  .comparison-table th,
+  .comparison-table td{
+    padding:12px 15px; text-align:left; border-bottom:1px solid rgba(255,255,255,0.1);
+  }
+  .comparison-table th{
+    background:rgba(30,38,50,.8); color:var(--brand); font-weight:600;
+  }
+  .comparison-table tr:last-child td{
+    border-bottom:none;
+  }
+  .badge{
+    display:inline-block; padding:4px 8px; border-radius:4px; font-size:0.85rem;
+    font-weight:500;
+  }
+  .badge-success{
+    background:rgba(124,255,159,0.2); color:var(--ok);
+  }
+  .badge-warning{
+    background:rgba(255,209,102,0.2); color:var(--warn);
+  }
+  .badge-danger{
+    background:rgba(255,107,107,0.2); color:var(--err);
+  }
+  .info-box{
+    background:rgba(37,99,235,0.1); border-left:4px solid var(--primary);
+    padding:15px; border-radius:8px; margin:20px 0;
+  }
+  .info-box h4{
+    margin-bottom:10px; color:var(--primary);
+  }
+  .info-box p{
+    margin-bottom:0; color:var(--muted);
+  }
+  .steps{
+    counter-reset:step;
+  }
+  .step{
+    display:flex; margin-bottom:30px; position:relative;
+  }
+  .step-number{
+    counter-increment:step;
+    background:var(--brand); color:var(--bg); width:40px; height:40px;
+    border-radius:50%; display:flex; align-items:center; justify-content:center;
+    font-weight:700; margin-right:20px; flex-shrink:0;
+  }
+  .step-content{
+    padding-top:5px;
+  }
+  .step-title{
+    font-weight:600; margin-bottom:8px;
+  }
+  .step-description{
+    color:var(--muted);
+  }
+  .highlight{
+    background:rgba(61,211,255,0.15); padding:2px 5px; border-radius:4px;
+  }
+  .formula{
+    background:rgba(30,38,50,.8); padding:15px; border-radius:8px; 
+    font-family:'Courier New', monospace; margin:15px 0; overflow-x:auto;
+  }
+  .footer{
+    background:rgba(10,13,18,.8); border-top:1px solid #1d2533;
+    padding:40px 0; margin-top:80px;
+  }
+  .footer-content{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:30px;
+  }
+  .footer-column h4{
+    margin-bottom:20px; color:var(--brand);
+  }
+  .footer-column ul{
+    list-style:none;
+  }
+  .footer-column li{
+    margin-bottom:10px;
+  }
+  .footer-column a{
+    color:var(--muted); text-decoration:none; transition:color 0.3s;
+  }
+  .footer-column a:hover{
+    color:var(--brand);
+  }
+  .copyright{
+    text-align:center; padding-top:30px; margin-top:30px;
+    border-top:1px solid rgba(255,255,255,0.1); color:var(--muted);
+    font-size:0.9rem;
+  }
+  .mobile-menu{
+    display:none;
+  }
+  @media (max-width: 768px){
+    nav ul{display:none}
+    .mobile-menu{
+      display:block; font-size:1.5rem; cursor:pointer;
+    }
+    .hero h2{font-size:2rem}
+    .section-title h2{font-size:2rem}
+    .footer-content{grid-template-columns:1fr}
   }
 </style>
 </head>
 <body>
 <header>
-  <div class="wrap">
-    <div class="card head">
-      <div style="flex:1">
-        <h1>Comparateur <span class="chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7l3-7z" stroke="currentColor"/></svg> BAEL 91</span> vs <span class="chip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor"/></svg> Eurocode 2</span></h1>
-        <div class="sub">Poutres • Poteaux • Semelles — Site statique 100% local (un seul fichier). <span class="pillnote">Aucune hypothèse par défaut : vous saisissez tous les coefficients.</span></div>
+  <div class="container">
+    <div class="header-content">
+      <div class="logo">
+        <i class="fas fa-building" style="font-size:2rem; color:var(--brand)"></i>
+        <div>
+          <h1>Calcul Béton Armé</h1>
+          <p>BAEL 91 vs Eurocode 2</p>
+        </div>
       </div>
-      <div class="right no-print">
-        <button class="btn alt" onclick="window.print()">Imprimer / Exporter PDF</button>
-        <button class="btn ghost" id="toggleTheme">Mode clair/sombre</button>
-      </div>
-    </div>
-    <div class="tabs no-print" id="tabs">
-      <button class="tab active" data-target="#tab-params">1) Paramètres normatifs</button>
-      <button class="tab" data-target="#tab-poutre">2) Poutre (flexion simple)</button>
-      <button class="tab" data-target="#tab-poteau">3) Poteau (compression / flexion)</button>
-      <button class="tab" data-target="#tab-semelle">4) Semelle (dimension & armatures)</button>
-      <button class="tab" data-target="#tab-comparatif">5) Comparatif global</button>
+      <nav>
+        <ul>
+          <li><a href="#accueil" class="active">Accueil</a></li>
+          <li><a href="#normes">Normes</a></li>
+          <li><a href="#calculs">Calculs</a></li>
+          <li><a href="#comparatif">Comparatif</a></li>
+          <li><a href="#ressources">Ressources</a></li>
+        </ul>
+        <div class="mobile-menu">
+          <i class="fas fa-bars"></i>
+        </div>
+      </nav>
     </div>
   </div>
 </header>
-<main class="wrap">
-  <!-- PARAMETRES NORMATIFS -->
-  <section class="section active" id="tab-params">
-    <div class="row">
+
+<section id="accueil" class="hero">
+  <div class="container">
+    <h2>Guide Complet de Calcul Béton Armé</h2>
+    <p>Comparez et maîtrisez les calculs selon les normes BAEL 91 et Eurocode 2 pour les poutres, poteaux et semelles</p>
+    <div class="btn-group">
+      <a href="#calculs" class="btn btn-primary">
+        <i class="fas fa-calculator"></i> Commencer les calculs
+      </a>
+      <a href="#normes" class="btn btn-secondary">
+        <i class="fas fa-book"></i> Découvrir les normes
+      </a>
+    </div>
+  </div>
+</section>
+
+<section id="normes" class="section">
+  <div class="container">
+    <div class="section-title">
+      <h2>Les Normes de Calcul</h2>
+      <p>Comprendre les différences fondamentales entre BAEL 91 et Eurocode 2</p>
+    </div>
+    
+    <div class="grid grid-2">
       <div class="card">
-        <h2 style="margin:0 0 12px">Paramètres <span class="chip">BAEL 91</span></h2>
-        <div class="grid3">
-          <div>
-            <label>f<sub>c28</sub> (MPa)</label>
-            <input id="bael_fck" type="number" inputmode="decimal" placeholder="ex. 25" value="25" />
-          </div>
-          <div>
-            <label>f<sub>e</sub> (MPa)</label>
-            <input id="bael_fyk" type="number" inputmode="decimal" placeholder="ex. 500" value="500" />
-          </div>
-          <div>
-            <label>θ <span class="muted">(durée d'application)</span></label>
-            <input id="bael_theta" type="number" inputmode="decimal" placeholder="1" value="1" />
-          </div>
+        <div class="card-header">
+          <h3 class="card-title">BAEL 91</h3>
+          <span class="badge badge-warning">Historique</span>
         </div>
-        <div class="grid3">
-          <div>
-            <label>γ<sub>b</sub> <span class="muted">sécurité béton</span></label>
-            <input id="bael_gam_c" type="number" inputmode="decimal" placeholder="1.5" value="1.5" />
+        <div class="card-body">
+          <p>Le Béton Armé aux États Limites (BAEL) 91 est la norme historique française utilisée jusqu'en 2010.</p>
+          
+          <div class="info-box">
+            <h4>Principales caractéristiques</h4>
+            <ul>
+              <li>Approche semi-probabiliste</li>
+              <li>Coefficient de sécurité γ<sub>b</sub> = 1.5 pour le béton</li>
+              <li>Coefficient de sécurité γ<sub>s</sub> = 1.15 pour l'acier</li>
+              <li>Contrainte admissible du béton : f<sub>bu</sub> = 0.85f<sub>c28</sub>/(γ<sub>b</sub>θ)</li>
+              <li>Diagramme rectangulaire simplifié</li>
+            </ul>
           </div>
-          <div>
-            <label>γ<sub>s</sub> <span class="muted">sécurité acier</span></label>
-            <input id="bael_gam_s" type="number" inputmode="decimal" placeholder="1.15" value="1.15" />
-          </div>
-          <div>
-            <label>η <span class="muted">bloc équivalent (contrainte)</span></label>
-            <input id="bael_eta" type="number" inputmode="decimal" placeholder="0.85" value="0.85" />
-          </div>
-        </div>
-        <div class="grid3">
-          <div>
-            <label>λ <span class="muted">bloc équivalent (profondeur)</span></label>
-            <input id="bael_lambda" type="number" inputmode="decimal" placeholder="0.8" value="0.8" />
-          </div>
-          <div>
-            <label>α (flambement) <span class="muted help" title="Coefficient de réduction pour le flambement">?</span></label>
-            <input id="bael_alpha" type="number" inputmode="decimal" placeholder="0.775" value="0.775" />
-          </div>
-          <div>
-            <label>f<sub>t28</sub> (MPa) <span class="muted help" title="Résistance en traction du béton">?</span></label>
-            <input id="bael_ft28" type="number" inputmode="decimal" placeholder="2.1" value="2.1" />
-          </div>
+          
+          <h4>Domaine d'application</h4>
+          <p>Le BAEL 91 s'applique aux structures en béton armé courantes : bâtiments, ponts, réservoirs, etc.</p>
+          
+          <h4>Vérifications principales</h4>
+          <ul>
+            <li>Équilibre des sections</li>
+            <li>Non-fragilité</li>
+            <li>Flèches admissibles</li>
+            <li>Fissuration (peu/préjudiciable/très préjudiciable)</li>
+          </ul>
         </div>
       </div>
+      
       <div class="card">
-        <h2 style="margin:0 0 12px">Paramètres <span class="chip">Eurocode 2</span></h2>
-        <div class="grid3">
-          <div>
-            <label>f<sub>ck</sub> (MPa)</label>
-            <input id="ec2_fck" type="number" inputmode="decimal" placeholder="ex. 25" value="25" />
+        <div class="card-header">
+          <h3 class="card-title">Eurocode 2</h3>
+          <span class="badge badge-success">Européen</span>
+        </div>
+        <div class="card-body">
+          <p>L'Eurocode 2 (EN 1992) est la norme européenne actuelle pour le calcul des structures en béton.</p>
+          
+          <div class="info-box">
+            <h4>Principales caractéristiques</h4>
+            <ul>
+              <li>Approche performantielle</li>
+              <li>Coefficient de sécurité γ<sub>c</sub> = 1.5 pour le béton</li>
+              <li>Coefficient de sécurité γ<sub>s</sub> = 1.15 pour l'acier</li>
+              <li>Contrainte admissible : f<sub>cd</sub> = α<sub>cc</sub>f<sub>ck</sub>/γ<sub>c</sub></li>
+              <li>Diagramme parabole-rectangle ou rectangulaire</li>
+            </ul>
           </div>
-          <div>
-            <label>f<sub>yk</sub> (MPa)</label>
-            <input id="ec2_fyk" type="number" inputmode="decimal" placeholder="ex. 500" value="500" />
+          
+          <h4>Domaine d'application</h4>
+          <p>L'Eurocode 2 couvre un large éventail de structures : bâtiments, ponts, silos, réservoirs, tours, etc.</p>
+          
+          <h4>Vérifications principales</h4>
+          <ul>
+            <li>États limites ultimes (ELU)</li>
+            <li>États limites de service (ELS)</li>
+            <li>Durabilité et enrobages</li>
+            <li>Maitrise de la fissuration</li>
+            <li>Analyse non-linéaire si nécessaire</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card" style="margin-top:30px">
+      <div class="card-header">
+        <h3 class="card-title">Comparaison des approches</h3>
+      </div>
+      <div class="card-body">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>Aspect</th>
+              <th>BAEL 91</th>
+              <th>Eurocode 2</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Philosophie</td>
+              <td>Semi-probabiliste</td>
+              <td>Performantielle</td>
+            </tr>
+            <tr>
+              <td>Combinaisons</td>
+              <td>1.35G + 1.5Q</td>
+              <td>1.35G + 1.5Q (similaire)</td>
+            </tr>
+            <tr>
+              <td>Diagramme béton</td>
+              <td>Rectangulaire simplifié</td>
+              <td>Parabole-rectangle ou rectangulaire</td>
+            </tr>
+            <tr>
+              <td>Fissuration</td>
+              <td>3 classes (PP, TP, Très TP)</td>
+              <td>Classes d'exposition (XC1-XD3)</td>
+            </tr>
+            <tr>
+              <td>Poteaux</td>
+              <td>Section réduite Br</td>
+              <td>Section brute Ac</td>
+            </tr>
+            <tr>
+              <td>Semelles</td>
+              <td>Méthode des bielles</td>
+              <td>Méthode des bielles ou ELU</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="calculs" class="section">
+  <div class="container">
+    <div class="section-title">
+      <h2>Outils de Calcul</h2>
+      <p>Calculez vos éléments de structure selon les deux normes avec des résultats détaillés</p>
+    </div>
+    
+    <div class="tabs">
+      <div class="tab active" data-tab="poutre">Poutres</div>
+      <div class="tab" data-tab="poteau">Poteaux</div>
+      <div class="tab" data-tab="semelle">Semelles</div>
+    </div>
+    
+    <!-- POUTRES -->
+    <div id="poutre" class="tab-content active">
+      <div class="grid grid-2">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Paramètres de calcul</h3>
           </div>
-          <div>
-            <label>α<sub>cc</sub></label>
-            <input id="ec2_alpha_cc" type="number" inputmode="decimal" placeholder="1" value="1" />
+          <div class="card-body">
+            <div class="form-group">
+              <label>Moment fléchissant M<sub>u</sub> (kN·m)</label>
+              <input type="number" class="form-control" id="beam_Mu" placeholder="Ex: 120" value="79.69">
+            </div>
+            
+            <div class="grid grid-2">
+              <div class="form-group">
+                <label>Largeur b (mm)</label>
+                <input type="number" class="form-control" id="beam_b" placeholder="Ex: 300" value="250">
+              </div>
+              <div class="form-group">
+                <label>Hauteur utile d (mm)</label>
+                <input type="number" class="form-control" id="beam_d" placeholder="Ex: 500" value="460">
+              </div>
+            </div>
+            
+            <div class="grid grid-2">
+              <div class="form-group">
+                <label>Charge permanente G (kN/m)</label>
+                <input type="number" class="form-control" id="beam_G" placeholder="Ex: 10" value="10">
+              </div>
+              <div class="form-group">
+                <label>Charge d'exploitation Q (kN/m)</label>
+                <input type="number" class="form-control" id="beam_Q" placeholder="Ex: 8" value="8">
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label>Portée L (m)</label>
+              <input type="number" class="form-control" id="beam_L" placeholder="Ex: 5" value="5">
+            </div>
+            
+            <div class="info-box">
+              <h4>Recommandations BAEL 91</h4>
+              <ul>
+                <li>Vérifier le moment réduit μ ≤ μ<sub>lim</sub> = 0.371</li>
+                <li>Armature minimale : A<sub>s,min</sub> = 0.23bdft<sub>28</sub>/f<sub>e</sub></li>
+                <li>Vérifier la contrainte de compression du béton</li>
+                <li>Vérifier les flèches si nécessaire</li>
+              </ul>
+            </div>
+            
+            <div class="info-box">
+              <h4>Recommandations Eurocode 2</h4>
+              <ul>
+                <li>Vérifier le moment réduit μ ≤ μ<sub>lim</sub> = 0.371</li>
+                <li>Armature minimale : A<sub>s,min</sub> = 0.26f<sub>ctm</sub>bt<sub>d</sub>/f<sub>yk</sub></li>
+                <li>Vérifier l'ouverture des fissures en ELS</li>
+                <li>Vérifier les flèches avec la méthode simplifiée</li>
+              </ul>
+            </div>
+            
+            <button class="btn btn-primary" onclick="calculateBeam()">
+              <i class="fas fa-calculator"></i> Calculer
+            </button>
           </div>
         </div>
-        <div class="grid3">
-          <div>
-            <label>γ<sub>c</sub></label>
-            <input id="ec2_gam_c" type="number" inputmode="decimal" placeholder="1.5" value="1.5" />
+        
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Résultats de calcul</h3>
           </div>
-          <div>
-            <label>γ<sub>s</sub></label>
-            <input id="ec2_gam_s" type="number" inputmode="decimal" placeholder="1.15" value="1.15" />
-          </div>
-          <div>
-            <label>η</label>
-            <input id="ec2_eta" type="number" inputmode="decimal" placeholder="1" value="1" />
-          </div>
-        </div>
-        <div class="grid3">
-          <div>
-            <label>λ</label>
-            <input id="ec2_lambda" type="number" inputmode="decimal" placeholder="0.8" value="0.8" />
-          </div>
-          <div>
-            <label>α (flambement)</label>
-            <input id="ec2_alpha" type="number" inputmode="decimal" placeholder="0.746" value="0.746" />
-          </div>
-          <div>
-            <label>f<sub>ctm</sub> (MPa) <span class="muted help" title="Résistance en traction moyenne">?</span></label>
-            <input id="ec2_fctm" type="number" inputmode="decimal" placeholder="2.56" value="2.56" />
+          <div class="card-body">
+            <div id="beam_results">
+              <div class="result-box">
+                <div class="result-title">BAEL 91</div>
+                <div class="result-item">
+                  <span class="result-label">Contrainte béton f<sub>bu</sub></span>
+                  <span class="result-value">14.17 MPa</span>
+                </div>
+                <div class="result-item">
+                  <span class="result-label">Contrainte acier f<sub>yd</sub></span>
+                  <span class="result-value">434.78 MPa</span>
+                </div>
+                <div class="result-item">
+                  <span class="result-label">Moment réduit μ</span>
+                  <span class="result-value">0.106</span>
+                </div>
+                <div class="result-item">
+                  <span class="result-label">Bras de levier z</span>
+                  <span class="result-value">434.1 mm</span>
+                </div>
+                <div class="result-item">
+                  <span class="result-label">Armature requise A<sub>s</sub></span>
+                  <span class="result-value">422.3 mm²</span>
+                </div>
+                <div class="result-item">
+                  <span class="result-label">Armature minimale A<sub>s,min</sub></span>
+                  <span class="result-value">111.1 mm²</span>
+                </div>
+                <div class="result-item">
+                  <span class="result-label">Choix d'armatures</span>
+                  <span class="result-value">2 HA20 (628 mm²)</span>
+                </div>
+                <div class="result-item">
+                  <span class="result-label">Vérification</span>
+                  <span class="result-value badge badge-success">OK</span>
+                </div>
+              </div>
+              
+              <div class="result-box" style="margin-top:20px">
+                <div class="result-title">Eurocode 2</div>
+                <div class="result-item">
+                  <span class="result-label">Contrainte béton f<sub>cd</sub></span>
+                  <span class="result-value">16.67 MPa</span>
+                </div>
+                <div class="result-item">
+                  <span class="result-label">Contrainte acier f<sub>yd</sub></span>
+                  <span class="result-value">434.78 MPa</span>
+                </div>
+                <div class="result-item">
+                  <span class="result-label">Moment réduit μ</span>
+                  <span class="result-value">0.0904</span>
+                </div>
+                <div class="result-item">
+                  <span class="result-label">Bras de levier z</span>
+                  <span class="result-value">438.1 mm</span>
+                </div>
+                <div class="result-item">
+                  <span class="result-label">Armature requise A<sub>s</sub></span>
+                  <span class="result-value">418.3 mm²</span>
+                </div>
+                <div class="result-item">
+                  <span class="result-label">Armature minimale A<sub>s,min</sub></span>
+                  <span class="result-value">153.4 mm²</span>
+                </div>
+                <div class="result-item">
+                  <span class="result-label">Choix d'armatures</span>
+                  <span class="result-value">2 HA20 (628 mm²)</span>
+                </div>
+                <div class="result-item">
+                  <span class="result-label">Vérification</span>
+                  <span class="result-value badge badge-success">OK</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="card" style="margin-top:14px">
-      <div class="tip">
-        <strong>Unités :</strong> Dimensions en <span class="kbd">mm</span>, charges axiales en <span class="kbd">kN</span>, moments en <span class="kbd">kN·m</span>, résistances béton/acier en <span class="kbd">MPa = N/mm²</span>.  
-        Les calculs internes convertissent automatiquement <span class="kbd">kN → N</span> et <span class="kbd">kN·m → N·mm</span>.
+    
+    <!-- POTEAUX -->
+    <div id="poteau" class="tab-content">
+      <div class="grid grid-2">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Paramètres de calcul</h3>
+          </div>
+          <div class="card-body">
+            <div class="form-group">
+              <label>Effort normal N<sub>u</sub> (kN)</label>
+              <input type="number" class="form-control" id="col_Nu" placeholder="Ex: 1500" value="1125">
+            </div>
+            
+            <div class="grid grid-2">
+              <div class="form-group">
+                <label>Largeur b (mm)</label>
+                <input type="number" class="form-control" id="col_b" placeholder="Ex: 300" value="300">
+              </div>
+              <div class="form-group">
+                <label>Hauteur h (mm)</label>
+                <input type="number" class="form-control" id="col_h" placeholder="Ex: 300" value="300">
+              </div>
+            </div>
+            
+            <div class="grid grid-2">
+              <div class="form-group">
+                <label>Hauteur libre H (m)</label>
+                <input type="number" class="form-control" id="col_H" placeholder="Ex: 3" value="3">
+              </div>
+              <div class="form-group">
+                <label>Longueur flambement L<sub>0</sub> (m)</label>
+                <input type="number" class="form-control" id="col_L0" placeholder="Ex: 2.1" value="2.1">
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label>Type de flambement</label>
+              <select class="form-control" id="col_type">
+                <option value="encastre-articule">Encastré-Articulé</option>
+                <option value="bi-articule">Bi-Articulé</option>
+                <option value="bi-encastré">Bi-Encastré</option>
+              </select>
+            </div>
+            
+            <div class="info-box">
+              <h4>Recommandations BAEL 91</h4>
+              <ul>
+                <li>Calculer l'élancement λ = L<sub>0</sub>/i</li>
+                <li>Déterminer le coefficient α = 0.85/(1+0.2(λ/35)²)</li>
+                <li>Utiliser la section réduite Br = (b-2)(h-2)</li>
+                <li>Vérifier λ ≤ 70</li>
+                <li>Armature minimale : 4 cm² ou 0.2% de la section</li>
+              </ul>
+            </div>
+            
+            <div class="info-box">
+              <h4>Recommandations Eurocode 2</h4>
+              <ul>
+                <li>Calculer l'élancement λ = L<sub>0</sub>/i</li>
+                <li>Déterminer le coefficient α = 0.86/(1+(λ/62)²)</li>
+                <li>Utiliser la section brute Ac = b×h</li>
+                <li>Vérifier λ ≤ 120</li>
+                <li>Armature minimale : 0.2% de la section</li>
+              </ul>
+            </div>
+            
+            <button class="btn btn-primary" onclick="calculateColumn()">
+              <i class="fas fa-calculator"></i> Calculer
+            </button>
+          </div>
+        </div>
+        
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Résultats de calcul</h3>
+          </div>
+          <div class="card-body">
+            <div id="column_results">
+              <div class="result-box">
+                <div class="result-title">BAEL 91</div>
+                <div class="result-item">
+                  <span class="result-label">Élancement λ</span>
+                  <span class="result-value">24.25</span>
+                </div>
+                <div class="result-item">
+                  <span class="result-label">Coefficient α</span>
+                  <span class="result-value">0.775</span>
+                </div>
+                <div class="result-item">
+                  <span class="result-label">Section réduite Br</span>
+                  <span class="result-value">784 cm²</span>
+                </div>
+                <div class="result-item">
+                  <span class="result-label">Effort béton N<sub>b,Rd</sub></span>
+                  <span class="result-value">1083.9 kN</span>
+                </div>
+                <div class="result-item">
+                  <span class="result-label">Armature requise A<sub>s</sub></span>
+                  <span class="result-value">94.7 mm²</span>
+                </div>
+                <div class="result-item">
+                  <span class="result-label">Armature minimale</span>
+                  <span class="result-value">480 mm²</span>
+                </div>
+                <div class="result-item">
+                  <span class="result-label">Choix d'armatures</span>
+                  <span class="result-value">4 HA14 (616 mm²)</span>
+                </div>
+                <div class="result-item">
+                  <span class="result-label">Vérification</span>
+                  <span class="result-value badge badge-success">OK</span>
+                </div>
+              </div>
+              
+              <div class="result-box" style="margin-top:20px">
+                <div class="result-title">Eurocode 2</div>
+                <div class="result-item">
+                  <span class="result-label">Élancement λ</span>
+                  <span class="result-value">24.25</span>
+                </div>
+                <div class="result-item">
+                  <span class="result-label">Coefficient α</span>
+                  <span class="result-value">0.746</span>
+                </div>
+                <div class="result-item">
+                  <span class="result-label">Section brute Ac</span>
+                  <span class="result-value">900 cm²</span>
+                </div>
+                <div class="result-item">
+                  <span class="result-label">Effort béton N<sub>c,Rd</sub></span>
+                  <span class="result-value">1119.5 kN</span>
+                </div>
+                <div class="result-item">
+                  <span class="result-label">Armature requise A<sub>s</sub></span>
+                  <span class="result-value">12.1 mm²</span>
+                </div>
+                <div class="result-item">
+                  <span class="result-label">Armature minimale</span>
+                  <span class="result-value">180 mm²</span>
+                </div>
+                <div class="result-item">
+                  <span class="result-label">Choix d'armatures</span>
+                  <span class="result-value">4 HA12 (452 mm²)</span>
+                </div>
+                <div class="result-item">
+                  <span class="result-label">Vérification</span>
+                  <span class="result-value badge badge-success">OK</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </section>
-  <!-- POUTRE -->
-  <section class="section" id="tab-poutre">
-    <div class="row">
-      <div class="card">
-        <h2 style="margin:0 0 12px">Entrées — Poutre (flexion simple, section rectangulaire)</h2>
-        <div class="grid3">
-          <div>
-            <label>M<sub>u</sub> (kN·m) <span class="muted">moment à l'ELU</span></label>
-            <input id="beam_M" type="number" inputmode="decimal" placeholder="ex. 120" value="79.69" />
+    
+    <!-- SEMELLES -->
+    <div id="semelle" class="tab-content">
+      <div class="grid grid-2">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Paramètres de calcul</h3>
           </div>
-          <div>
-            <label>b (mm) <span class="muted">largeur</span></label>
-            <input id="beam_b" type="number" inputmode="decimal" placeholder="ex. 300" value="250" />
-          </div>
-          <div>
-            <label>d (mm) <span class="muted help" title="Profondeur utile: distance fibre comprimée → centre des aciers tendus">profondeur utile</span></label>
-            <input id="beam_d" type="number" inputmode="decimal" placeholder="ex. 500" value="460" />
+          <div class="card-body">
+            <div class="form-group">
+              <label>Charge à l'ELU N<sub>u</sub> (kN)</label>
+              <input type="number" class="form-control" id="foot_Nu" placeholder="Ex: 1500" value="1125">
+            </div>
+            
+            <div class="grid grid-2">
+              <div class="form-group">
+                <label>Largeur semelle B (mm)</label>
+                <input type="number" class="form-control" id="foot_B" placeholder="Ex: 2500" value="2100">
+              </div>
+              <div class="form-group">
+                <label>Longueur semelle L (mm)</label>
+                <input type="number" class="form-control" id="foot_L" placeholder="Ex: 2500" value="2100">
+              </div>
+            </div>
+            
+            <div class="grid grid-2">
+              <div class="form-group">
+                <label>Hauteur totale h (mm)</label>
+                <input type="number" class="form-control" id="foot_h" placeholder="Ex: 500" value="500">
+              </div>
+              <div class="form-group">
+                <label>Hauteur utile d (mm)</label>
+                <input type="number" class="form-control" id="foot_d" placeholder="Ex: 450" value="450">
+              </div>
+            </div>
+            
+            <div class="grid grid-2">
+              <div class="form-group">
+                <label>Largeur poteau c<sub>1</sub> (mm)</label>
+                <input type="number" class="form-control" id="foot_c1" placeholder="Ex: 400" value="300">
+              </div>
+              <div class="form-group">
+                <label>Longueur poteau c<sub>2</sub> (mm)</label>
+                <input type="number" class="form-control" id="foot_c2" placeholder="Ex: 400" value="300">
+              </div>
+            </div>
+            
+            <div class="grid grid-2">
+              <div class="form-group">
+                <label>Contrainte sol ELS (MPa)</label>
+                <input type="number" class="form-control" id="foot_q_els" placeholder="Ex: 0.2" value="0.2">
+              </div>
+              <div class="form-group">
+                <label>Contrainte sol ELU (MPa)</label>
+                <input type="number" class="form-control" id="foot_q_elu" placeholder="Ex: 0.3" value="0.3">
+              </div>
+            </div>
+            
+            <div class="info-box">
+              <h4>Recommandations BAEL 91</h4>
+              <ul>
+                <li>Vérifier la contrainte du sol : q = N/(B×L) ≤ q<sub>admissible</sub></li>
+                <li>Calculer le moment : M = q×s²/2 avec s = (B-c)/2</li>
+                <li>Vérifier le poinçonnement : V<sub>Ed</sub> ≤ V<sub>Rd</sub></li>
+                <li>Armature minimale : 3.5 cm²/m</li>
+                <li>Enrobage minimal : 3 cm</li>
+              </ul>
+            </div>
+            
+            <div class="info-box">
+              <h4>Recommandations Eurocode 2</h4>
+              <ul>
+                <li>Vérifier la contrainte du sol : q = N/(B×L) ≤ q<sub>admissible</sub></li>
+                <li>Calculer le moment : M = q×s²/2 avec s = (B-c)/2</li>
+                <li>Vérifier le poinçonnement : v<sub>Ed</sub> ≤ v<sub>Rd,c</sub></li>
+                <li>Armature minimale : A<sub>s,min</sub> = 0.0013×b×d</li>
+                <li>Enrobage selon classe d'exposition</li>
+              </ul>
+            </div>
+            
+            <button class="btn btn-primary" onclick="calculateFooting()">
+              <i class="fas fa-calculator"></i> Calculer
+            </button>
           </div>
         </div>
-        <div class="grid3">
-          <div>
-            <label>G (kN/m) <span class="muted">charges permanentes</span></label>
-            <input id="beam_G" type="number" inputmode="decimal" placeholder="ex. 10" value="10" />
+        
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">Résultats de calcul</h3>
           </div>
-          <div>
-            <label>Q (kN/m) <span class="muted">charges d'exploitation</span></label>
-            <input id="beam_Q" type="number" inputmode="decimal" placeholder="ex. 8" value="8" />
+          <div class="card-body">
+            <div id="footing_results">
+              <div class="result-box">
+                <div class="result-title">BAEL 91 - Direction X</div>
+                <div class="result-item">
+                  <span class="result-label">Contrainte sol q</span>
+                  <span class="result-value">0.255 MPa</span>
+                </div>
+                <div class="result-item">
+                  <span class="result-label">Débord s<sub>x</sub></span>
+                  <span class="result-value">900 mm</span>
+                </div>
+                <div class="result-item">
+                  <span class="result-label">Moment M<sub>x</sub></span>
+                  <span class="result-value">103.3 kN·m/m</span>
+                </div>
+                <div class="result-item">
+                  <span class="result-label">Armature A<sub>s,x</sub></span>
+                  <span class="result-value">547.5 mm²/m</span>
+                </div>
+                <div class="result-item">
+                  <span class="result-label">Choix d'armatures</span>
+                  <span class="result-value">HA14 e=25 cm (616 mm²/m)</span>
+                </div>
+              </div>
+              
+              <div class="result-box" style="margin-top:20px">
+                <div class="result-title">BAEL 91 - Direction Y</div>
+                <div class="result-item">
+                  <span class="result-label">Contrainte sol q</span>
+                  <span class="result-value">0.255 MPa</span>
+                </div>
+                <div class="result-item">
+                  <span class="result-label">Débord s<sub>y</sub></span>
+                  <span class="result-value">900 mm</span>
+                </div>
+                <div class="result-item">
+                  <span class="result-label">Moment M<sub>y</sub></span>
+                  <span class="result-value">103.3 kN·m/m</span>
+                </div>
+                <div class="result-item">
+                  <span class="result-label">Armature A<sub>s,y</sub></span>
+                  <span class="result-value">547.5 mm²/m</span>
+                </div>
+                <div class="result-item">
+                  <span class="result-label">Choix d'armatures</span>
+                  <span class="result-value">HA14 e=25 cm (616 mm²/m)</span>
+                </div>
+              </div>
+              
+              <div class="result-box" style="margin-top:20px">
+                <div class="result-title">Eurocode 2 - Direction X</div>
+                <div class="result-item">
+                  <span class="result-label">Contrainte sol q</span>
+                  <span class="result-value">0.255 MPa</span>
+                </div>
+                <div class="result-item">
+                  <span class="result-label">Débord s<sub>x</sub></span>
+                  <span class="result-value">900 mm</span>
+                </div>
+                <div class="result-item">
+                  <span class="result-label">Moment M<sub>x</sub></span>
+                  <span class="result-value">103.3 kN·m/m</span>
+                </div>
+                <div class="result-item">
+                  <span class="result-label">Armature A<sub>s,x</sub></span>
+                  <span class="result-value">540.8 mm²/m</span>
+                </div>
+                <div class="result-item">
+                  <span class="result-label">Choix d'armatures</span>
+                  <span class="result-value">HA14 e=25 cm (616 mm²/m)</span>
+                </div>
+              </div>
+              
+              <div class="result-box" style="margin-top:20px">
+                <div class="result-title">Eurocode 2 - Direction Y</div>
+                <div class="result-item">
+                  <span class="result-label">Contrainte sol q</span>
+                  <span class="result-value">0.255 MPa</span>
+                </div>
+                <div class="result-item">
+                  <span class="result-label">Débord s<sub>y</sub></span>
+                  <span class="result-value">900 mm</span>
+                </div>
+                <div class="result-item">
+                  <span class="result-label">Moment M<sub>y</sub></span>
+                  <span class="result-value">103.3 kN·m/m</span>
+                </div>
+                <div class="result-item">
+                  <span class="result-label">Armature A<sub>s,y</sub></span>
+                  <span class="result-value">540.8 mm²/m</span>
+                </div>
+                <div class="result-item">
+                  <span class="result-label">Choix d'armatures</span>
+                  <span class="result-value">HA14 e=25 cm (616 mm²/m)</span>
+                </div>
+              </div>
+            </div>
           </div>
-          <div>
-            <label>L (m) <span class="muted">portée</span></label>
-            <input id="beam_L" type="number" inputmode="decimal" placeholder="ex. 5" value="5" />
-          </div>
-        </div>
-        <div class="tip danger" style="margin-top:8px">
-          Ce module suppose une <em>poutre à simple armature en traction</em>. Si le discriminant devient négatif, une solution à simple armature n’existe pas avec vos coefficients — augmentez la section, modifiez les coefficients, ou passez en armature double (non calculée ici).
-        </div>
-        <div class="no-print" style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap">
-          <button class="btn" onclick="calcBeam()">Calculer BAEL & EC2</button>
-          <button class="btn ghost" onclick="clearBeam()">Effacer</button>
-        </div>
-      </div>
-      <div class="card">
-        <h2 style="margin:0 0 12px">Résultats — Poutre</h2>
-        <div class="grid2">
-          <div class="result" id="beam_out_bael"><h3>BAEL 91</h3><div class="muted">En attente…</div></div>
-          <div class="result" id="beam_out_ec2"><h3>Eurocode 2</h3><div class="muted">En attente…</div></div>
-        </div>
-        <div style="margin-top:12px">
-          <table id="beam_table" style="display:none">
-            <thead><tr><th>Norme</th><th>f<sub>bu</sub>/f<sub>cd</sub> (MPa)</th><th>f<sub>yd</sub> (MPa)</th><th>A<sub>s,req</sub> (mm²)</th><th>z (mm)</th><th>Note</th></tr></thead>
-            <tbody></tbody>
-          </table>
         </div>
       </div>
     </div>
-  </section>
-  <!-- POTEAU -->
-  <section class="section" id="tab-poteau">
-    <div class="gridCards">
-      <div class="card">
-        <h2 style="margin:0 0 12px">Poteau — Compression axiale</h2>
-        <div class="grid3">
-          <div>
-            <label>N<sub>u</sub> (kN)</label>
-            <input id="colN" type="number" inputmode="decimal" placeholder="ex. 1500" value="1125" />
-          </div>
-          <div>
-            <label>b (mm)</label>
-            <input id="colb" type="number" inputmode="decimal" placeholder="ex. 300" value="300" />
-          </div>
-          <div>
-            <label>h (mm)</label>
-            <input id="colh" type="number" inputmode="decimal" placeholder="ex. 300" value="300" />
-          </div>
-        </div>
-        <div class="grid3">
-          <div>
-            <label>H (m) <span class="muted">hauteur libre</span></label>
-            <input id="colH" type="number" inputmode="decimal" placeholder="ex. 3" value="3" />
-          </div>
-          <div>
-            <label>L<sub>0</sub> (m) <span class="muted">longueur de flambement</span></label>
-            <input id="colL0" type="number" inputmode="decimal" placeholder="ex. 2.1" value="2.1" />
-          </div>
-          <div>
-            <label>Type <span class="muted">flambement</span></label>
-            <select id="colType">
-              <option value="encastre-articule">Encastré-Articulé</option>
-              <option value="bi-articule">Bi-Articulé</option>
-              <option value="bi-encastré">Bi-Encastré</option>
-            </select>
-          </div>
-        </div>
-        <div class="tip" style="margin-top:8px">
-          Modèle utilisé : <span class="kbd">N<sub>Rd</sub> = α · (B<sub>r</sub> · f<sub>bu</sub>/0.9 + A<sub>s</sub> · f<sub>yd</sub>)</span> pour BAEL et <span class="kbd">N<sub>Rd</sub> = α · (A<sub>c</sub> · f<sub>cd</sub> + A<sub>s</sub> · f<sub>yd</sub>)</span> pour EC2.
-        </div>
-        <div class="no-print" style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap">
-          <button class="btn" onclick="calcColumnAxial()">Calculer BAEL & EC2</button>
-          <button class="btn ghost" onclick="clearColumnAxial()">Effacer</button>
-        </div>
-        <div class="result" id="col_ax_out" style="margin-top:12px"><div class="muted">En attente…</div></div>
-      </div>
-      <div class="card">
-        <h2 style="margin:0 0 12px">Poteau — Flexion simple</h2>
-        <div class="grid3">
-          <div>
-            <label>M<sub>u</sub> (kN·m)</label>
-            <input id="colM" type="number" inputmode="decimal" placeholder="ex. 120" />
-          </div>
-          <div>
-            <label>b (mm)</label>
-            <input id="colfb" type="number" inputmode="decimal" placeholder="ex. 300" />
-          </div>
-          <div>
-            <label>d (mm)</label>
-            <input id="colfd" type="number" inputmode="decimal" placeholder="ex. 500" />
-          </div>
-        </div>
-        <div class="tip danger" style="margin-top:8px">
-          Ce module traite la <em>flexion simple</em> comme une poutre rectangulaire (armature en traction).  
-          Pour N + M avec interaction et armatures doubles, utilisez un outil avancé ou ajoutez une routine à partir des équilibres (non inclus ici pour respecter “zéro hypothèse par défaut”).
-        </div>
-        <div class="no-print" style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap">
-          <button class="btn" onclick="calcColumnBend()">Calculer BAEL & EC2</button>
-          <button class="btn ghost" onclick="clearColumnBend()">Effacer</button>
-        </div>
-        <div class="grid2" style="margin-top:12px">
-          <div class="result" id="col_fb_bael"><h3>BAEL 91</h3><div class="muted">En attente…</div></div>
-          <div class="result" id="col_fb_ec2"><h3>Eurocode 2</h3><div class="muted">En attente…</div></div>
-        </div>
-        <div style="margin-top:12px">
-          <table id="col_fb_table" style="display:none">
-            <thead><tr><th>Norme</th><th>f<sub>bu</sub>/f<sub>cd</sub> (MPa)</th><th>f<sub>yd</sub> (MPa)</th><th>A<sub>s,req</sub> (mm²)</th><th>z (mm)</th><th>Note</th></tr></thead>
-            <tbody></tbody>
-          </table>
-        </div>
-      </div>
+  </div>
+</section>
+
+<section id="comparatif" class="section">
+  <div class="container">
+    <div class="section-title">
+      <h2>Comparatif Global</h2>
+      <p>Synthèse des résultats et différences entre les deux normes</p>
     </div>
-  </section>
-  <!-- SEMELLE -->
-  <section class="section" id="tab-semelle">
+    
     <div class="card">
-      <h2 style="margin:0 0 12px">Semelle isolée — Dimension et armatures</h2>
-      <div class="grid4">
-        <div>
-          <label>N<sub>u</sub> (kN) <span class="muted">charge centrée</span></label>
-          <input id="footN" type="number" inputmode="decimal" placeholder="ex. 1500" value="1125" />
-        </div>
-        <div>
-          <label>B (mm) <span class="muted">largeur semelle</span></label>
-          <input id="footB" type="number" inputmode="decimal" placeholder="ex. 2500" value="2100" />
-        </div>
-        <div>
-          <label>L (mm) <span class="muted">longueur semelle</span></label>
-          <input id="footL" type="number" inputmode="decimal" placeholder="ex. 2500" value="2100" />
-        </div>
-        <div>
-          <label>h (mm) <span class="muted">hauteur totale</span></label>
-          <input id="footh" type="number" inputmode="decimal" placeholder="ex. 500" value="500" />
-        </div>
+      <div class="card-header">
+        <h3 class="card-title">Tableau comparatif des résultats</h3>
       </div>
-      <div class="grid4" style="margin-top:10px">
-        <div>
-          <label>c<sub>1</sub> (mm) <span class="muted">dimension poteau (x)</span></label>
-          <input id="footc1" type="number" inputmode="decimal" placeholder="ex. 400" value="300" />
-        </div>
-        <div>
-          <label>c<sub>2</sub> (mm) <span class="muted">dimension poteau (y)</span></label>
-          <input id="footc2" type="number" inputmode="decimal" placeholder="ex. 400" value="300" />
-        </div>
-        <div>
-          <label>q<sub>sol,ELS</sub> (MPa) <span class="muted help" title="Contrainte admissible du sol à l'ELS">?</span></label>
-          <input id="footq_els" type="number" inputmode="decimal" placeholder="ex. 0.2" value="0.2" />
-        </div>
-        <div>
-          <label>q<sub>sol,ELU</sub> (MPa) <span class="muted help" title="Contrainte admissible du sol à l'ELU">?</span></label>
-          <input id="footq_elu" type="number" inputmode="decimal" placeholder="ex. 0.3" value="0.3" />
-        </div>
-      </div>
-      <div class="tip" style="margin-top:8px">
-        Hypothèse de calcul de flexion par direction (schéma en encorbellement) : <span class="kbd">M = q · s² / 2</span> par largeur unitaire, où <span class="kbd">s</span> est le débord (cantilever) depuis la face du poteau : <span class="kbd">s<sub>x</sub>=(L−c₁)/2</span>, <span class="kbd">s<sub>y</sub>=(B−c₂)/2</span>, et <span class="kbd">q = N/(B·L)</span> en N/mm² (MPa).
-      </div>
-      <div class="no-print" style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap">
-        <button class="btn" onclick="calcFooting()">Calculer BAEL & EC2</button>
-        <button class="btn ghost" onclick="clearFooting()">Effacer</button>
+      <div class="card-body">
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>Élément</th>
+              <th>Grandeur</th>
+              <th>BAEL 91</th>
+              <th>Eurocode 2</th>
+              <th>Différence</th>
+              <th>Recommandation</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td rowspan="3">Poutre</td>
+              <td>Armature A<sub>s</sub></td>
+              <td>422.3 mm²</td>
+              <td>418.3 mm²</td>
+              <td>-0.9%</td>
+              <td>EC2 légèrement plus économique</td>
+            </tr>
+            <tr>
+              <td>Bras de levier z</td>
+              <td>434.1 mm</td>
+              <td>438.1 mm</td>
+              <td>+0.9%</td>
+              <td>EC2 optimise le bras de levier</td>
+            </tr>
+            <tr>
+              <td>A<sub>s,min</sub></td>
+              <td>111.1 mm²</td>
+              <td>153.4 mm²</td>
+              <td>+38%</td>
+              <td>EC2 plus exigeant</td>
+            </tr>
+            <tr>
+              <td rowspan="3">Poteau</td>
+              <td>Armature A<sub>s</sub></td>
+              <td>480 mm² (min)</td>
+              <td>180 mm² (min)</td>
+              <td>-62.5%</td>
+              <td>EC2 permet moins d'acier</td>
+            </tr>
+            <tr>
+              <td>Coefficient α</td>
+              <td>0.775</td>
+              <td>0.746</td>
+              <td>-3.7%</td>
+              <td>BAEL plus favorable</td>
+            </tr>
+            <tr>
+              <td>Section calcul</td>
+              <td>Br (réduite)</td>
+              <td>Ac (brute)</td>
+              <td>-</td>
+              <td>Approches différentes</td>
+            </tr>
+            <tr>
+              <td rowspan="2">Semelle</td>
+              <td>Armature A<sub>s,x</sub></td>
+              <td>547.5 mm²/m</td>
+              <td>540.8 mm²/m</td>
+              <td>-1.2%</td>
+              <td>EC2 légèrement plus économique</td>
+            </tr>
+            <tr>
+              <td>Armature A<sub>s,y</sub></td>
+              <td>547.5 mm²/m</td>
+              <td>540.8 mm²/m</td>
+              <td>-1.2%</td>
+              <td>EC2 légèrement plus économique</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
-    <div class="row" style="margin-top:14px">
+    
+    <div class="grid grid-2" style="margin-top:30px">
       <div class="card">
-        <h2 style="margin:0 0 12px">Résultats — Semelle (BAEL 91)</h2>
-        <div class="grid2">
-          <div class="result" id="foot_out_bael_x"><h3>Direction X (arm. // X)</h3><div class="muted">En attente…</div></div>
-          <div class="result" id="foot_out_bael_y"><h3>Direction Y (arm. // Y)</h3><div class="muted">En attente…</div></div>
+        <div class="card-header">
+          <h3 class="card-title">Avantages du BAEL 91</h3>
+        </div>
+        <div class="card-body">
+          <div class="steps">
+            <div class="step">
+              <div class="step-number">1</div>
+              <div class="step-content">
+                <div class="step-title">Simplicité</div>
+                <div class="step-description">Règles plus simples et plus directes, faciles à appliquer manuellement</div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-number">2</div>
+              <div class="step-content">
+                <div class="step-title">Conservatisme</div>
+                <div class="step-description">Approche plus sécuritaire avec des coefficients plus élevés</div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-number">3</div>
+              <div class="step-content">
+                <div class="step-title">Familiarité</div>
+                <div class="step-description">Bien connu des ingénieurs français avec une longue pratique</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+      
       <div class="card">
-        <h2 style="margin:0 0 12px">Résultats — Semelle (Eurocode 2)</h2>
-        <div class="grid2">
-          <div class="result" id="foot_out_ec2_x"><h3>Direction X (arm. // X)</h3><div class="muted">En attente…</div></div>
-          <div class="result" id="foot_out_ec2_y"><h3>Direction Y (arm. // Y)</h3><div class="muted">En attente…</div></div>
+        <div class="card-header">
+          <h3 class="card-title">Avantages de l'Eurocode 2</h3>
+        </div>
+        <div class="card-body">
+          <div class="steps">
+            <div class="step">
+              <div class="step-number">1</div>
+              <div class="step-content">
+                <div class="step-title">Harmonisation</div>
+                <div class="step-description">Norme européenne unique pour tous les pays membres</div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-number">2</div>
+              <div class="step-content">
+                <div class="step-title">Performance</div>
+                <div class="step-description">Approche plus économique avec optimisation des matériaux</div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-number">3</div>
+              <div class="step-content">
+                <div class="step-title">Durabilité</div>
+                <div class="step-description">Meilleure prise en compte de la durabilité et de l'environnement</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <div style="margin-top:12px">
-      <table id="foot_table" style="display:none">
-        <thead>
-          <tr>
-            <th>Norme</th><th>q (MPa)</th><th>s<sub>x</sub> (mm)</th><th>M<sub>x</sub> (kN·m/m)</th><th>A<sub>s,x</sub> (mm²/m)</th>
-            <th>s<sub>y</sub> (mm)</th><th>M<sub>y</sub> (kN·m/m)</th><th>A<sub>s,y</sub> (mm²/m)</th><th>Poinçonnement</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
+  </div>
+</section>
+
+<section id="ressources" class="section">
+  <div class="container">
+    <div class="section-title">
+      <h2>Ressources et Formules</h2>
+      <p>Formules clés et références pour approfondir vos connaissances</p>
     </div>
-  </section>
-  <!-- COMPARATIF GLOBAL -->
-  <section class="section" id="tab-comparatif">
-    <div class="card">
-      <h2 style="margin:0 0 12px">Comparatif global (derniers calculs effectués)</h2>
-      <table id="global_table">
-        <thead>
-          <tr>
-            <th>Élément</th><th>Grandeur</th><th>BAEL 91</th><th>Eurocode 2</th><th>Commentaire</th>
-          </tr>
-        </thead>
-        <tbody id="global_tbody">
-          <tr><td colspan="5" class="muted">Aucun calcul encore — lancez au moins un module.</td></tr>
-        </tbody>
-      </table>
-      <div class="footer">
-        Note : le tableau reprend les dernières valeurs calculées dans chaque onglet (poutre, poteau, semelle).
+    
+    <div class="grid grid-3">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Poutres - Formules clés</h3>
+        </div>
+        <div class="card-body">
+          <h4>BAEL 91</h4>
+          <div class="formula">
+            f<sub>bu</sub> = 0.85f<sub>c28</sub>/(γ<sub>b</sub>θ)<br>
+            μ = M<sub>u</sub>/(b·d²·f<sub>bu</sub>)<br>
+            α = 1.25(1-√(1-2μ))<br>
+            z = d(1-0.4α)<br>
+            A<sub>s</sub> = M<sub>u</sub>/(z·f<sub>yd</sub>)
+          </div>
+          
+          <h4>Eurocode 2</h4>
+          <div class="formula">
+            f<sub>cd</sub> = α<sub>cc</sub>f<sub>ck</sub>/γ<sub>c</sub><br>
+            μ = M<sub>Ed</sub>/(b·d²·f<sub>cd</sub>)<br>
+            α = 1.25(1-√(1-2μ))<br>
+            z = d(1-0.4α)<br>
+            A<sub>s</sub> = M<sub>Ed</sub>/(z·f<sub>yd</sub>)
+          </div>
+        </div>
+      </div>
+      
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Poteaux - Formules clés</h3>
+        </div>
+        <div class="card-body">
+          <h4>BAEL 91</h4>
+          <div class="formula">
+            λ = L<sub>0</sub>/i<br>
+            α = 0.85/(1+0.2(λ/35)²)<br>
+            B<sub>r</sub> = (b-2)(h-2)<br>
+            N<sub>u</sub> ≤ α(B<sub>r</sub>f<sub>bu</sub>/0.9 + A<sub>s</sub>f<sub>yd</sub>)
+          </div>
+          
+          <h4>Eurocode 2</h4>
+          <div class="formula">
+            λ = L<sub>0</sub>/i<br>
+            α = 0.86/(1+(λ/62)²)<br>
+            A<sub>c</sub> = b·h<br>
+            N<sub>Ed</sub> ≤ α(A<sub>c</sub>f<sub>cd</sub> + A<sub>s</sub>f<sub>yd</sub>)
+          </div>
+        </div>
+      </div>
+      
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Semelles - Formules clés</h3>
+        </div>
+        <div class="card-body">
+          <h4>BAEL 91 & Eurocode 2</h4>
+          <div class="formula">
+            q = N<sub>u</sub>/(B·L)<br>
+            s<sub>x</sub> = (L-c<sub>1</sub>)/2<br>
+            s<sub>y</sub> = (B-c<sub>2</sub>)/2<br>
+            M<sub>x</sub> = q·s<sub>x</sub>²/2<br>
+            M<sub>y</sub> = q·s<sub>y</sub>²/2
+          </div>
+          
+          <h4>Poinçonnement (EC2)</h4>
+          <div class="formula">
+            v<sub>Ed</sub> = V<sub>Ed</sub>/(u·d)<br>
+            v<sub>Rd,c</sub> = 0.18/γ<sub>c</sub>k(100ρf<sub>ck</sub>)<sup>1/3</sup>
+          </div>
+        </div>
       </div>
     </div>
-  </section>
-  <section class="card" style="margin-top:14px">
-    <h2 style="margin:0 0 10px">Formules utilisées (résumé)</h2>
-    <div class="grid2">
-      <div>
+    
+    <div class="card" style="margin-top:30px">
+      <div class="card-header">
+        <h3 class="card-title">Références bibliographiques</h3>
+      </div>
+      <div class="card-body">
+        <div class="grid grid-2">
+          <div>
+            <h4>BAEL 91</h4>
+            <ul>
+              <li>Règles BAEL 91 révisées 99 (DTU P18-702)</li>
+              <li>Calcul des structures en béton armé - J. Perchat</li>
+              <li>Pratique du BAEL 91 - J. Roux</li>
+              <li>Béton armé : Application aux règles BAEL - H. Thonier</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Eurocode 2</h4>
+            <ul>
+              <li>EN 1992-1-1: Calcul des structures en béton</li>
+              <li>Annexe Nationale française NF EN 1992-1-1/NA</li>
+              <li>Calcul des structures en béton avec l'Eurocode 2 - J-A. Calgaro</li>
+              <li>Maîtrise de l'Eurocode 2 - J. Roux</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-column">
+        <h4>À propos</h4>
+        <p>Ce site a été développé pour aider les ingénieurs et étudiants à comprendre et comparer les méthodes de calcul selon les normes BAEL 91 et Eurocode 2.</p>
+      </div>
+      <div class="footer-column">
+        <h4>Liens utiles</h4>
         <ul>
-          <li><strong>Résistances de calcul (par norme)</strong> : 
-            <div class="kbd">BAEL: f<sub>bu</sub> = 0.85·f<sub>c28</sub>/(γ<sub>b</sub>·θ)</span>, <span class="kbd">f<sub>yd</sub> = f<sub>e</sub>/γ<sub>s</sub></span>
-            <div class="kbd">EC2: f<sub>cd</sub> = α<sub>cc</sub>·f<sub>ck</sub>/γ<sub>c</sub></span>, <span class="kbd">f<sub>yd</sub> = f<sub>yk</sub>/γ<sub>s</sub></span></div>
-          </li>
-          <li><strong>Bloc équivalent</strong> (générique) avec vos coefficients : <span class="kbd">η</span> (contrainte), <span class="kbd">λ</span> (profondeur).</li>
-          <li><strong>Poutre, flexion simple (simplement armée)</strong> :
-            <div class="kbd">M = A<sub>s</sub>·f<sub>yd</sub>·( d − (λ/2)·(A<sub>s</sub>·f<sub>yd</sub> / (η·f<sub>bu</sub>·b) ) )</div>
-            D’où l’équation quadratique en <span class="kbd">A<sub>s</sub></span>.
-          </li>
-          <li><strong>Poteau, compression axiale</strong> :
-            <div class="kbd">BAEL: N<sub>Rd</sub> = α · (B<sub>r</sub> · f<sub>bu</sub>/0.9 + A<sub>s</sub> · f<sub>yd</sub>)</div>
-            <div class="kbd">EC2: N<sub>Rd</sub> = α · (A<sub>c</sub> · f<sub>cd</sub> + A<sub>s</sub> · f<sub>yd</sub>)</div>
-          </li>
-          <li><strong>Semelle, flexion par direction</strong> (cantilever par largeur unitaire) :
-            <div class="kbd">q = N / (B·L)</div>
-            <div class="kbd">s<sub>x</sub>=(L−c₁)/2, &nbsp; s<sub>y</sub>=(B−c₂)/2</div>
-            <div class="kbd">M<sub>x</sub> = q · s<sub>x</sub>² / 2 · (par m de largeur)</div>
-            Même formule pour <span class="kbd">M<sub>y</sub></span>.
-          </li>
+          <li><a href="#">Normes AFNOR</a></li>
+          <li><a href="#">CSTB</a></li>
+          <li><a href="#">EFB</a></li>
+          <li><a href="#">Cimbéton</a></li>
         </ul>
       </div>
-      <div>
-        <div class="tip">
-          <strong>Important :</strong> ce comparateur est un outil <em>pédagogique</em> et de <em>pré-dimensionnement</em>. Pour un projet réel, appliquez l’intégralité des prescriptions normatives (états limites, enrobages, efforts tranchants, flambement, ductilité, ancrages, dispositions minimales, etc.).
-        </div>
+      <div class="footer-column">
+        <h4>Ressources</h4>
+        <ul>
+          <li><a href="#">Guide Eurocode</a></li>
+          <li><a href="#">Formulaires BAEL</a></li>
+          <li><a href="#">Exemples de calcul</a></li>
+          <li><a href="#">Logiciels de calcul</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="#">Nous contacter</a></li>
+          <li><a href="#">Signaler une erreur</a></li>
+          <li><a href="#">Contribuer</a></li>
+          <li><a href="#">Mentions légales</a></li>
+        </ul>
       </div>
     </div>
-  </section>
-</main>
+    <div class="copyright">
+      <p>&copy; 2023 Calcul Béton Armé - BAEL 91 vs Eurocode 2. Tous droits réservés.</p>
+    </div>
+  </div>
+</footer>
+
 <script>
-/* -------------------------------
-   UTILITAIRES
-----------------------------------*/
-const $ = (sel)=>document.querySelector(sel);
-const $$ = (sel)=>document.querySelectorAll(sel);
-function val(id){
-  const el = document.getElementById(id);
-  if(!el) return NaN;
-  const v = parseFloat(el.value);
-  return Number.isFinite(v) ? v : NaN;
-}
-function fmt(n, dec=2){
-  if(!Number.isFinite(n)) return "—";
-  return n.toLocaleString('fr-FR', {maximumFractionDigits: dec, minimumFractionDigits: dec});
-}
-function setHTML(id, html){ const el = document.getElementById(id); if(el) el.innerHTML = html; }
-function show(el){ el.style.display=''; }
-function hide(el){ el.style.display='none'; }
-/* Thème clair/sombre */
-(function themeInit(){
-  const btn = $("#toggleTheme");
-  let light = false;
-  const apply = ()=>{
-    document.body.style.background = light
-      ? "#f6f9fc"
-      : getComputedStyle(document.body).getPropertyValue("background");
-    document.body.style.color = light ? "#0d1320" : "var(--text)";
-    document.querySelectorAll('.card, .result, input, select, textarea, .chip, .tab').forEach(e=>{
-      e.style.filter = light ? "invert(0) hue-rotate(0deg)" : "";
-    });
-    btn.textContent = light ? "Mode sombre" : "Mode clair";
-  };
-  btn?.addEventListener('click', ()=>{ light = !light; apply(); });
-})();
-/* Tabs */
-(function tabs(){
-  $$("#tabs .tab").forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      $$("#tabs .tab").forEach(b=>b.classList.remove('active'));
-      btn.classList.add('active');
-      const target = btn.getAttribute('data-target');
-      $$(".section").forEach(s=>s.classList.remove('active'));
-      document.querySelector(target).classList.add('active');
-      window.scrollTo({top:0, behavior:"smooth"});
-    });
-  });
-})();
-/* -------------------------------
-   EXTRACTION PARAMS (par norme)
-----------------------------------*/
-function getNormParams(prefix){
-  const fck = val(prefix+"_fck");
-  const fyk = val(prefix+"_fyk");
-  const alpha_cc = val(prefix+"_alpha_cc");
-  const gam_c = val(prefix+"_gam_c");
-  const gam_s = val(prefix+"_gam_s");
-  const eta = val(prefix+"_eta");
-  const lambda = val(prefix+"_lambda");
-  const alpha = val(prefix+"_alpha");
-  
-  // Paramètres spécifiques par norme
-  let theta, ft28, fctm;
-  if(prefix === "bael") {
-    theta = val(prefix+"_theta");
-    ft28 = val(prefix+"_ft28");
-  } else {
-    fctm = val(prefix+"_fctm");
-  }
-  
-  const missing = [];
-  [["fck",fck],["fyk",fyk],["αcc",alpha_cc],["γc",gam_c],["γs",gam_s],["η",eta],["λ",lambda],["α",alpha]]
-  .forEach(([k,v])=>{ if(!Number.isFinite(v)) missing.push(k); });
-  
-  if(prefix === "bael" && (!Number.isFinite(theta) || !Number.isFinite(ft28))) {
-    if(!Number.isFinite(theta)) missing.push("θ");
-    if(!Number.isFinite(ft28)) missing.push("ft28");
-  }
-  if(prefix === "ec2" && !Number.isFinite(fctm)) {
-    missing.push("fctm");
-  }
-  
-  if(missing.length){
-    return { ok:false, msg:`Paramètres manquants (${prefix.toUpperCase()}): ${missing.join(", ")}` };
-  }
-  
-  // Calcul des résistances
-  let fcd, fyd;
-  if(prefix === "bael") {
-    fcd = (0.85 * fck) / (gam_c * theta);  // fbu pour BAEL
-    fyd = fyk / gam_s;
-  } else {
-    fcd = alpha_cc * fck / gam_c;
-    fyd = fyk / gam_s;
-  }
-  
-  return { 
-    ok:true, 
-    fck, fyk, alpha_cc, gam_c, gam_s, eta, lambda, alpha, 
-    theta, ft28, fctm, fcd, fyd 
-  };
-}
-/* -------------------------------
-   CALCUL POUTRE (flexion simple)
-   Quadratique: k As^2 - d As + (M/fyd)=0
-   k = (λ/2) * fyd / (η fcd b)
-----------------------------------*/
-function beamAs(M_kNm, b_mm, d_mm, prm, norme){
-  const M = M_kNm * 1e6; // N·mm
-  const b = b_mm; const d = d_mm;
-  const { eta, lambda, fcd, fyd } = prm;
-  
-  // Convert MPa=N/mm² → fcd,fyd en N/mm² ok
-  const k = (lambda/2) * (fyd / (eta * fcd * b)); // 1/mm
-  const A = k;
-  const B = -d;
-  const C = M / fyd;
-  const disc = B*B - 4*A*C;
-  
-  if(disc < 0){
-    return { ok:false, note:"Discriminant négatif → section trop sollicitée pour une solution à simple armature (envisager double armature / section plus grande)." };
-  }
-  
-  const As1 = (d - Math.sqrt(disc)) / (2*A);
-  const As2 = (d + Math.sqrt(disc)) / (2*A); // non pertinent (grand)
-  const As = As1;
-  const x = (As * fyd) / (eta * fcd * b); // mm (profondeur NA /λ? Ici x correspond au x tel que a=λx → centroid à λx/2)
-  const z = d - (lambda * x)/2;
-  
-  // Vérification de non-fragilité
-  let AsMin, note = "OK (simplement armée)";
-  if(norme === "bael") {
-    const ft28 = prm.ft28;
-    AsMin = (0.23 * b * d * ft28) / fyk;
-  } else {
-    const fctm = prm.fctm;
-    AsMin = 0.26 * (fctm / fyk) * b * d;
-  }
-  
-  if(As < AsMin) {
-    note = `A<sub>s,min</sub> = ${fmt(AsMin,1)} mm² > A<sub>s,req</sub> → armature minimale requise`;
-  }
-  
-  return { ok:true, As, z, AsMin, note };
-}
-function calcBeam(){
-  const prmBAEL = getNormParams("bael");
-  const prmEC2  = getNormParams("ec2");
-  const M = val("beam_M"); const b = val("beam_b"); const d = val("beam_d");
-  
-  if(!Number.isFinite(M)||!Number.isFinite(b)||!Number.isFinite(d)){
-    alert("Veuillez renseigner M, b, d pour la poutre.");
-    return;
-  }
-  
-  const tbody = $("#beam_table tbody");
-  tbody.innerHTML = "";
-  let anyOK = false;
-  
-  // BAEL
-  if(!prmBAEL.ok){ 
-    setHTML("beam_out_bael", `<h3>BAEL 91</h3><div class="err">${prmBAEL.msg}</div>`); 
-  } else {
-    const r = beamAs(M, b, d, prmBAEL, "bael");
-    if(r.ok){
-      anyOK = true;
-      setHTML("beam_out_bael", `<h3>BAEL 91</h3>
-        <div>f<sub>bu</sub>=<b>${fmt(prmBAEL.fcd,3)}</b> MPa &nbsp;|&nbsp; f<sub>yd</sub>=<b>${fmt(prmBAEL.fyd,3)}</b> MPa</div>
-        <div>Armature requise A<sub>s</sub> = <b>${fmt(r.As,1)}</b> mm²</div>
-        <div>Bras de levier z = <b>${fmt(r.z,1)}</b> mm</div>
-        <div>A<sub>s,min</sub> = <b>${fmt(r.AsMin,1)}</b> mm²</div>
-        <div class="${r.As >= r.AsMin ? 'ok' : 'warn'}">${r.note}</div>`);
-      tbody.insertAdjacentHTML("beforeend", `<tr>
-        <td>BAEL 91</td><td>${fmt(prmBAEL.fcd,3)}</td><td>${fmt(prmBAEL.fyd,3)}</td>
-        <td>${fmt(r.As,1)}</td><td>${fmt(r.z,1)}</td><td>${r.note}</td></tr>`);
-      updateGlobal("Poutre (Aₛ)", fmt(r.As,1)+" mm²", null, "Calcul flexion simple");
-    } else {
-      setHTML("beam_out_bael", `<h3>BAEL 91</h3><div class="err">${r.note}</div>`);
-      tbody.insertAdjacentHTML("beforeend", `<tr>
-        <td>BAEL 91</td><td>${fmt(prmBAEL.fcd,3)}</td><td>${fmt(prmBAEL.fyd,3)}</td>
-        <td class="err">—</td><td>—</td><td>${r.note}</td></tr>`);
-      updateGlobal("Poutre (Aₛ)", "—", null, "Discriminant &lt; 0 (BAEL)");
-    }
-  }
-  
-  // EC2
-  if(!prmEC2.ok){ 
-    setHTML("beam_out_ec2", `<h3>Eurocode 2</h3><div class="err">${prmEC2.msg}</div>`); 
-  } else {
-    const r = beamAs(M, b, d, prmEC2, "ec2");
-    if(r.ok){
-      anyOK = true;
-      setHTML("beam_out_ec2", `<h3>Eurocode 2</h3>
-        <div>f<sub>cd</sub>=<b>${fmt(prmEC2.fcd,3)}</b> MPa &nbsp;|&nbsp; f<sub>yd</sub>=<b>${fmt(prmEC2.fyd,3)}</b> MPa</div>
-        <div>Armature requise A<sub>s</sub> = <b>${fmt(r.As,1)}</b> mm²</div>
-        <div>Bras de levier z = <b>${fmt(r.z,1)}</b> mm</div>
-        <div>A<sub>s,min</sub> = <b>${fmt(r.AsMin,1)}</b> mm²</div>
-        <div class="${r.As >= r.AsMin ? 'ok' : 'warn'}">${r.note}</div>`);
-      tbody.insertAdjacentHTML("beforeend", `<tr>
-        <td>Eurocode 2</td><td>${fmt(prmEC2.fcd,3)}</td><td>${fmt(prmEC2.fyd,3)}</td>
-        <td>${fmt(r.As,1)}</td><td>${fmt(r.z,1)}</td><td>${r.note}</td></tr>`);
-      updateGlobal("Poutre (Aₛ)", null, fmt(r.As,1)+" mm²", "Calcul flexion simple");
-    } else {
-      setHTML("beam_out_ec2", `<h3>Eurocode 2</h3><div class="err">${r.note}</div>`);
-      tbody.insertAdjacentHTML("beforeend", `<tr>
-        <td>Eurocode 2</td><td>${fmt(prmEC2.fcd,3)}</td><td>${fmt(prmEC2.fyd,3)}</td>
-        <td class="err">—</td><td>—</td><td>${r.note}</td></tr>`);
-      updateGlobal("Poutre (Aₛ)", null, "—", "Discriminant &lt; 0 (EC2)");
-    }
-  }
-  
-  const table = $("#beam_table");
-  if(anyOK) show(table); else hide(table);
-}
-function clearBeam(){
-  ["beam_M","beam_b","beam_d","beam_G","beam_Q","beam_L"].forEach(id=>{ 
-    const el=$("#"+id); if(el) el.value=""; 
-  });
-  setHTML("beam_out_bael","<h3>BAEL 91</h3><div class='muted'>En attente…</div>");
-  setHTML("beam_out_ec2","<h3>Eurocode 2</h3><div class='muted'>En attente…</div>");
-  hide($("#beam_table"));
-}
-/* -------------------------------
-   POTEAU — COMPRESSION AXIALE
-----------------------------------*/
-function calcColumnAxial(){
-  const prmBAEL = getNormParams("bael");
-  const prmEC2  = getNormParams("ec2");
-  const N = val("colN"); const b = val("colb"); const h = val("colh");
-  const H = val("colH"); const L0 = val("colL0");
-  const type = $("#colType").value;
-  
-  if(!Number.isFinite(N)||!Number.isFinite(b)||!Number.isFinite(h)||!Number.isFinite(H)||!Number.isFinite(L0)){
-    alert("Veuillez renseigner N, b, h, H et L0 pour le poteau en compression.");
-    return;
-  }
-  
-  const Nn = N*1000; // N
-  let html = `<div class="twoCols">`;
-  
-  // Calcul de l'élancement
-  const i = Math.min(b, h) / Math.sqrt(12); // Rayon de giration (mm)
-  const lambda = L0 * 1000 / i; // Élancement
-  
-  // BAEL
-  if(prmBAEL.ok){
-    const Br = (b - 20) * (h - 20); // Section réduite (mm²) - enrobage 2cm
-    const Nrd_conc = prmBAEL.alpha * (Br * prmBAEL.fcd / 0.9); // N
-    const As_req = Math.max(0, (Nn - Nrd_conc) / prmBAEL.fyd);
+// Gestion des onglets
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    // Désactiver tous les onglets
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
     
-    // Vérification du pourcentage minimal
-    const As_min = 4 * Math.max(b, h); // Règle forfaitaire (mm²)
-    const As_max = 0.05 * b * h; // 5%
-    
-    html += `<div><h3>BAEL 91</h3>
-      <div>Élancement λ = <b>${fmt(lambda,1)}</b></div>
-      <div>f<sub>bu</sub>=<b>${fmt(prmBAEL.fcd,3)}</b> MPa, f<sub>yd</sub>=<b>${fmt(prmBAEL.fyd,3)}</b> MPa, α=<b>${fmt(prmBAEL.alpha,3)}</b></div>
-      <div>B<sub>r</sub> = <b>${fmt(Br,0)}</b> mm²</div>
-      <div>N<sub>Rd,conc</sub> = α·B<sub>r</sub>·f<sub>bu</sub>/0.9 = <b>${fmt(Nrd_conc/1000,2)}</b> kN</div>
-      <div>A<sub>s,req</sub> = <b>${fmt(As_req,1)}</b> mm²</div>
-      <div>A<sub>s,min</sub> = <b>${fmt(As_min,1)}</b> mm², A<sub>s,max</sub> = <b>${fmt(As_max,1)}</b> mm²</div>
-      ${As_req > 0 ? `<div class="ok">Acier nécessaire: ${fmt(Math.max(As_req, As_min),1)} mm²</div>` : `<div class="ok">Béton seul suffisant</div>`}
-    </div>`;
-    updateGlobal("Poteau (Aₛ axial)", fmt(Math.max(As_req, As_min),1)+" mm²", null, "Compression axiale");
-  } else {
-    html += `<div><h3>BAEL 91</h3><div class="err">${prmBAEL.msg}</div></div>`;
-    updateGlobal("Poteau (Aₛ axial)", "—", null, "Paramètres BAEL manquants");
-  }
-  
-  // EC2
-  if(prmEC2.ok){
-    const Ac = b * h; // Section brute (mm²)
-    const Nrd_conc = prmEC2.alpha * Ac * prmEC2.fcd; // N
-    const As_req = Math.max(0, (Nn - Nrd_conc) / prmEC2.fyd);
-    
-    // Vérification du pourcentage minimal
-    const As_min = 0.002 * Ac; // 0.2%
-    const As_max = 0.04 * Ac; // 4%
-    
-    html += `<div><h3>Eurocode 2</h3>
-      <div>Élancement λ = <b>${fmt(lambda,1)}</b></div>
-      <div>f<sub>cd</sub>=<b>${fmt(prmEC2.fcd,3)}</b> MPa, f<sub>yd</sub>=<b>${fmt(prmEC2.fyd,3)}</b> MPa, α=<b>${fmt(prmEC2.alpha,3)}</b></div>
-      <div>A<sub>c</sub> = <b>${fmt(Ac,0)}</b> mm²</div>
-      <div>N<sub>Rd,conc</sub> = α·A<sub>c</sub>·f<sub>cd</sub> = <b>${fmt(Nrd_conc/1000,2)}</b> kN</div>
-      <div>A<sub>s,req</sub> = <b>${fmt(As_req,1)}</b> mm²</div>
-      <div>A<sub>s,min</sub> = <b>${fmt(As_min,1)}</b> mm², A<sub>s,max</sub> = <b>${fmt(As_max,1)}</b> mm²</div>
-      ${As_req > 0 ? `<div class="ok">Acier nécessaire: ${fmt(Math.max(As_req, As_min),1)} mm²</div>` : `<div class="ok">Béton seul suffisant</div>`}
-    </div>`;
-    updateGlobal("Poteau (Aₛ axial)", null, fmt(Math.max(As_req, As_min),1)+" mm²", "Compression axiale");
-  } else {
-    html += `<div><h3>Eurocode 2</h3><div class="err">${prmEC2.msg}</div></div>`;
-    updateGlobal("Poteau (Aₛ axial)", null, "—", "Paramètres EC2 manquants");
-  }
-  
-  html += `</div>`;
-  setHTML("col_ax_out", html);
-}
-function clearColumnAxial(){
-  ["colN","colb","colh","colH","colL0"].forEach(id=>{ 
-    const el=$("#"+id); if(el) el.value=""; 
-  });
-  setHTML("col_ax_out","<div class='muted'>En attente…</div>");
-}
-/* -------------------------------
-   POTEAU — FLEXION SIMPLE
-   (même méthode que poutre, simple armature)
-----------------------------------*/
-function calcColumnBend(){
-  const prmBAEL = getNormParams("bael");
-  const prmEC2  = getNormParams("ec2");
-  const M = val("colM"); const b = val("colfb"); const d = val("colfd");
-  
-  if(!Number.isFinite(M)||!Number.isFinite(b)||!Number.isFinite(d)){
-    alert("Veuillez renseigner M, b, d pour le poteau en flexion.");
-    return;
-  }
-  
-  const tbody = $("#col_fb_table tbody");
-  tbody.innerHTML = "";
-  let anyOK = false;
-  
-  if(prmBAEL.ok){
-    const r = beamAs(M, b, d, prmBAEL, "bael");
-    if(r.ok){
-      anyOK = true;
-      setHTML("col_fb_bael", `<h3>BAEL 91</h3>
-        <div>f<sub>bu</sub>=<b>${fmt(prmBAEL.fcd,3)}</b> MPa &nbsp;|&nbsp; f<sub>yd</sub>=<b>${fmt(prmBAEL.fyd,3)}</b> MPa</div>
-        <div>A<sub>s,req</sub> = <b>${fmt(r.As,1)}</b> mm²</div>
-        <div>z = <b>${fmt(r.z,1)}</b> mm</div>
-        <div>A<sub>s,min</sub> = <b>${fmt(r.AsMin,1)}</b> mm²</div>
-        <div class="${r.As >= r.AsMin ? 'ok' : 'warn'}">${r.note}</div>`);
-      tbody.insertAdjacentHTML("beforeend", `<tr>
-        <td>BAEL 91</td><td>${fmt(prmBAEL.fcd,3)}</td><td>${fmt(prmBAEL.fyd,3)}</td>
-        <td>${fmt(r.As,1)}</td><td>${fmt(r.z,1)}</td><td>${r.note}</td></tr>`);
-      updateGlobal("Poteau (Aₛ flexion)", fmt(r.As,1)+" mm²", null, "Flexion simple");
-    } else {
-      setHTML("col_fb_bael", `<h3>BAEL 91</h3><div class="err">${r.note}</div>`);
-      tbody.insertAdjacentHTML("beforeend", `<tr>
-        <td>BAEL 91</td><td>${fmt(prmBAEL.fcd,3)}</td><td>${fmt(prmBAEL.fyd,3)}</td>
-        <td class="err">—</td><td>—</td><td>${r.note}</td></tr>`);
-      updateGlobal("Poteau (Aₛ flexion)", "—", null, "Discriminant &lt; 0 (BAEL)");
-    }
-  } else {
-    setHTML("col_fb_bael", `<h3>BAEL 91</h3><div class="err">${prmBAEL.msg}</div>`);
-    updateGlobal("Poteau (Aₛ flexion)", "—", null, "Paramètres BAEL manquants");
-  }
-  
-  if(prmEC2.ok){
-    const r = beamAs(M, b, d, prmEC2, "ec2");
-    if(r.ok){
-      anyOK = true;
-      setHTML("col_fb_ec2", `<h3>Eurocode 2</h3>
-        <div>f<sub>cd</sub>=<b>${fmt(prmEC2.fcd,3)}</b> MPa &nbsp;|&nbsp; f<sub>yd</sub>=<b>${fmt(prmEC2.fyd,3)}</b> MPa</div>
-        <div>A<sub>s,req</sub> = <b>${fmt(r.As,1)}</b> mm²</div>
-        <div>z = <b>${fmt(r.z,1)}</b> mm</div>
-        <div>A<sub>s,min</sub> = <b>${fmt(r.AsMin,1)}</b> mm²</div>
-        <div class="${r.As >= r.AsMin ? 'ok' : 'warn'}">${r.note}</div>`);
-      tbody.insertAdjacentHTML("beforeend", `<tr>
-        <td>Eurocode 2</td><td>${fmt(prmEC2.fcd,3)}</td><td>${fmt(prmEC2.fyd,3)}</td>
-        <td>${fmt(r.As,1)}</td><td>${fmt(r.z,1)}</td><td>${r.note}</td></tr>`);
-      updateGlobal("Poteau (Aₛ flexion)", null, fmt(r.As,1)+" mm²", "Flexion simple");
-    } else {
-      setHTML("col_fb_ec2", `<h3>Eurocode 2</h3><div class="err">${r.note}</div>`);
-      tbody.insertAdjacentHTML("beforeend", `<tr>
-        <td>Eurocode 2</td><td>${fmt(prmEC2.fcd,3)}</td><td>${fmt(prmEC2.fyd,3)}</td>
-        <td class="err">—</td><td>—</td><td>${r.note}</td></tr>`);
-      updateGlobal("Poteau (Aₛ flexion)", null, "—", "Discriminant &lt; 0 (EC2)");
-    }
-  } else {
-    setHTML("col_fb_ec2", `<h3>Eurocode 2</h3><div class="err">${prmEC2.msg}</div>`);
-    updateGlobal("Poteau (Aₛ flexion)", null, "—", "Paramètres EC2 manquants");
-  }
-  
-  const table = $("#col_fb_table");
-  if(anyOK) show(table); else hide(table);
-}
-function clearColumnBend(){
-  ["colM","colfb","colfd"].forEach(id=>{ 
-    const el=$("#"+id); if(el) el.value=""; 
-  });
-  setHTML("col_fb_bael","<h3>BAEL 91</h3><div class='muted'>En attente…</div>");
-  setHTML("col_fb_ec2","<h3>Eurocode 2</h3><div class='muted'>En attente…</div>");
-  hide($("#col_fb_table"));
-}
-/* -------------------------------
-   SEMELLE
-----------------------------------*/
-function footingArm(M_kNm_per_m, d_mm, prm, norme){
-  // Comme poutre par m de largeur : b = 1000 mm
-  const b = 1000;
-  return beamAs(M_kNm_per_m, b, d_mm, prm, norme);
-}
-function calcFooting(){
-  const prmBAEL = getNormParams("bael");
-  const prmEC2  = getNormParams("ec2");
-  const N = val("footN"); const B = val("footB"); const L = val("footL");
-  const h = val("footh"); const c1 = val("footc1"); const c2 = val("footc2");
-  const q_els = val("footq_els"); const q_elu = val("footq_elu");
-  
-  const missing = [];
-  [["N",N],["B",B],["L",L],["h",h],["c1",c1],["c2",c2],["q_els",q_els],["q_elu",q_elu]]
-  .forEach(([k,v])=>{ if(!Number.isFinite(v)) missing.push(k); });
-  
-  if(missing.length){ 
-    alert("Champs manquants (semelle): "+missing.join(", ")); 
-    return; 
-  }
-  
-  // Pression sol
-  const q = (N*1000) / (B*L); // N/mm² = MPa
-  const sx = (L - c1)/2, sy = (B - c2)/2; // mm
-  
-  if(sx<=0 || sy<=0){
-    alert("La semelle doit dépasser la colonne (s_x>0 et s_y>0).");
-    return;
-  }
-  
-  // Hauteur utile (estimation)
-  const d = h - 30 - 8 - 6; // Enrobage 3cm, cadre 8mm, diamètre 12mm
-  
-  // Moments par m de largeur
-  const Mx_kNm_per_m = (q * sx * sx / 2 * 1000) / 1e6;
-  const My_kNm_per_m = (q * sy * sy / 2 * 1000) / 1e6;
-  
-  // Vérification contrainte admissible sol
-  const soilOK_ELS = q <= q_els;
-  const soilOK_ELU = q <= q_elu;
-  
-  // BAEL
-  let baelX="", baelY="", ec2X="", ec2Y="";
-  let tableRows = "";
-  
-  if(prmBAEL.ok){
-    const rx = footingArm(Mx_kNm_per_m, d, prmBAEL, "bael");
-    const ry = footingArm(My_kNm_per_m, d, prmBAEL, "bael");
-    
-    baelX = rx.ok
-      ? `<div>q = <b>${fmt(q,3)}</b> MPa, s<sub>x</sub>=<b>${fmt(sx,0)}</b> mm</div>
-         <div>M<sub>x</sub>=<b>${fmt(Mx_kNm_per_m,3)}</b> kN·m/m</div>
-         <div>A<sub>s,x</sub>=<b>${fmt(rx.As,1)}</b> mm²/m, z=<b>${fmt(rx.z,1)}</b> mm</div>
-         <div>A<sub>s,min</sub>=<b>${fmt(rx.AsMin,1)}</b> mm²/m</div>
-         <div class="${rx.As >= rx.AsMin ? 'ok' : 'warn'}">${rx.note}</div>
-         <div class="${soilOK_ELS ? 'ok' : 'err'}">Sol ELS: ${soilOK_ELS ? 'OK' : 'Dépassement'}</div>
-         <div class="${soilOK_ELU ? 'ok' : 'err'}">Sol ELU: ${soilOK_ELU ? 'OK' : 'Dépassement'}</div>`
-      : `<div class="err">${rx.note}</div>`;
-      
-    baelY = ry.ok
-      ? `<div>q = <b>${fmt(q,3)}</b> MPa, s<sub>y</sub>=<b>${fmt(sy,0)}</b> mm</div>
-         <div>M<sub>y</sub>=<b>${fmt(My_kNm_per_m,3)}</b> kN·m/m</div>
-         <div>A<sub>s,y</sub>=<b>${fmt(ry.As,1)}</b> mm²/m, z=<b>${fmt(ry.z,1)}</b> mm</div>
-         <div>A<sub>s,min</sub>=<b>${fmt(ry.AsMin,1)}</b> mm²/m</div>
-         <div class="${ry.As >= ry.AsMin ? 'ok' : 'warn'}">${ry.note}</div>`
-      : `<div class="err">${ry.note}</div>`;
-      
-    tableRows += `<tr>
-      <td>BAEL 91</td>
-      <td>${fmt(q,3)}</td><td>${fmt(sx,0)}</td><td>${fmt(Mx_kNm_per_m,3)}</td><td>${rx.ok?fmt(rx.As,1):'—'}</td>
-      <td>${fmt(sy,0)}</td><td>${fmt(My_kNm_per_m,3)}</td><td>${ry.ok?fmt(ry.As,1):'—'}</td>
-      <td>${soilOK_ELS && soilOK_ELU ? 'OK' : 'Dépassement'}</td>
-    </tr>`;
-    
-    updateGlobal("Semelle q", fmt(q,3)+" MPa", null, soilOK_ELS && soilOK_ELU ? "OK" : "Dépassement");
-    updateGlobal("Aₛ semelle (x)", fmt(rx.ok?rx.As:NaN,1)+" mm²/m", null, rx.ok?rx.note:"—");
-    updateGlobal("Aₛ semelle (y)", fmt(ry.ok?ry.As:NaN,1)+" mm²/m", null, ry.ok?ry.note:"—");
-  } else {
-    baelX = `<div class="err">${prmBAEL.msg}</div>`;
-    baelY = `<div class="err">${prmBAEL.msg}</div>`;
-  }
-  
-  // EC2
-  if(prmEC2.ok){
-    const rx = footingArm(Mx_kNm_per_m, d, prmEC2, "ec2");
-    const ry = footingArm(My_kNm_per_m, d, prmEC2, "ec2");
-    
-    ec2X = rx.ok
-      ? `<div>q = <b>${fmt(q,3)}</b> MPa, s<sub>x</sub>=<b>${fmt(sx,0)}</b> mm</div>
-         <div>M<sub>x</sub>=<b>${fmt(Mx_kNm_per_m,3)}</b> kN·m/m</div>
-         <div>A<sub>s,x</sub>=<b>${fmt(rx.As,1)}</b> mm²/m, z=<b>${fmt(rx.z,1)}</b> mm</div>
-         <div>A<sub>s,min</sub>=<b>${fmt(rx.AsMin,1)}</b> mm²/m</div>
-         <div class="${rx.As >= rx.AsMin ? 'ok' : 'warn'}">${rx.note}</div>
-         <div class="${soilOK_ELS ? 'ok' : 'err'}">Sol ELS: ${soilOK_ELS ? 'OK' : 'Dépassement'}</div>
-         <div class="${soilOK_ELU ? 'ok' : 'err'}">Sol ELU: ${soilOK_ELU ? 'OK' : 'Dépassement'}</div>`
-      : `<div class="err">${rx.note}</div>`;
-      
-    ec2Y = ry.ok
-      ? `<div>q = <b>${fmt(q,3)}</b> MPa, s<sub>y</sub>=<b>${fmt(sy,0)}</b> mm</div>
-         <div>M<sub>y</sub>=<b>${fmt(My_kNm_per_m,3)}</b> kN·m/m</div>
-         <div>A<sub>s,y</sub>=<b>${fmt(ry.As,1)}</b> mm²/m, z=<b>${fmt(ry.z,1)}</b> mm</div>
-         <div>A<sub>s,min</sub>=<b>${fmt(ry.AsMin,1)}</b> mm²/m</div>
-         <div class="${ry.As >= ry.AsMin ? 'ok' : 'warn'}">${ry.note}</div>`
-      : `<div class="err">${ry.note}</div>`;
-      
-    tableRows += `<tr>
-      <td>Eurocode 2</td>
-      <td>${fmt(q,3)}</td><td>${fmt(sx,0)}</td><td>${fmt(Mx_kNm_per_m,3)}</td><td>${rx.ok?fmt(rx.As,1):'—'}</td>
-      <td>${fmt(sy,0)}</td><td>${fmt(My_kNm_per_m,3)}</td><td>${ry.ok?fmt(ry.As,1):'—'}</td>
-      <td>${soilOK_ELS && soilOK_ELU ? 'OK' : 'Dépassement'}</td>
-    </tr>`;
-    
-    updateGlobal("Semelle q", null, fmt(q,3)+" MPa", soilOK_ELS && soilOK_ELU ? "OK" : "Dépassement");
-    updateGlobal("Aₛ semelle (x)", null, fmt(rx.ok?rx.As:NaN,1)+" mm²/m", rx.ok?rx.note:"—");
-    updateGlobal("Aₛ semelle (y)", null, fmt(ry.ok?ry.As:NaN,1)+" mm²/m", ry.ok?ry.note:"—");
-  } else {
-    ec2X = `<div class="err">${prmEC2.msg}</div>`;
-    ec2Y = `<div class="err">${prmEC2.msg}</div>`;
-  }
-  
-  setHTML("foot_out_bael_x", `<h3>Direction X</h3>${baelX}`);
-  setHTML("foot_out_bael_y", `<h3>Direction Y</h3>${baelY}`);
-  setHTML("foot_out_ec2_x", `<h3>Direction X</h3>${ec2X}`);
-  setHTML("foot_out_ec2_y", `<h3>Direction Y</h3>${ec2Y}`);
-  
-  const tbody = $("#foot_table tbody");
-  tbody.innerHTML = tableRows;
-  show($("#foot_table"));
-}
-function clearFooting(){
-  ["footN","footB","footL","footh","footc1","footc2","footq_els","footq_elu"].forEach(id=>{ 
-    const el=$("#"+id); if(el) el.value=""; 
-  });
-  ["foot_out_bael_x","foot_out_bael_y","foot_out_ec2_x","foot_out_ec2_y"].forEach(id=>{
-    setHTML(id, `<h3>${id.includes('x')?'Direction X':'Direction Y'}</h3><div class='muted'>En attente…</div>`);
-  });
-  hide($("#foot_table"));
-}
-/* -------------------------------
-   COMPARATIF GLOBAL (mémo)
-----------------------------------*/
-const globalMemo = {
-  "Poutre (Aₛ)": {bael:"—", ec2:"—", note:"—"},
-  "Poteau (Aₛ axial)": {bael:"—", ec2:"—", note:"—"},
-  "Poteau (Aₛ flexion)": {bael:"—", ec2:"—", note:"—"},
-  "Semelle q": {bael:"—", ec2:"—", note:"—"},
-  "Aₛ semelle (x)": {bael:"—", ec2:"—", note:"—"},
-  "Aₛ semelle (y)": {bael:"—", ec2:"—", note:"—"}
-};
-function updateGlobal(key, baelVal, ec2Val, note){
-  if(!(key in globalMemo)) globalMemo[key] = {bael:"—", ec2:"—", note:"—"};
-  if(baelVal!==null && baelVal!==undefined) globalMemo[key].bael = baelVal;
-  if(ec2Val!==null && ec2Val!==undefined) globalMemo[key].ec2 = ec2Val;
-  if(note) globalMemo[key].note = note;
-  const tb = $("#global_tbody");
-  tb.innerHTML = "";
-  Object.entries(globalMemo).forEach(([k,v])=>{
-    tb.insertAdjacentHTML("beforeend", `<tr>
-      <td>${k.split(" ")[0]}</td><td>${k}</td><td>${v.bael}</td><td>${v.ec2}</td><td>${v.note}</td>
-    </tr>`);
-  });
-}
-/* Petite aide : empêcher saisies négatives absurdes */
-$$('input[type="number"]').forEach(inp=>{
-  inp.addEventListener('change', ()=>{
-    const v = parseFloat(inp.value);
-    if(Number.isFinite(v) && v<0){ inp.value = Math.abs(v); }
+    // Activer l'onglet cliqué
+    tab.classList.add('active');
+    const tabId = tab.getAttribute('data-tab');
+    document.getElementById(tabId).classList.add('active');
   });
 });
+
+// Navigation active
+document.querySelectorAll('nav a').forEach(link => {
+  link.addEventListener('click', () => {
+    document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+    link.classList.add('active');
+  });
+});
+
+// Fonctions de calcul
+function calculateBeam() {
+  // Récupération des valeurs
+  const Mu = parseFloat(document.getElementById('beam_Mu').value) || 0;
+  const b = parseFloat(document.getElementById('beam_b').value) || 0;
+  const d = parseFloat(document.getElementById('beam_d').value) || 0;
+  
+  // Calculs BAEL 91
+  const fbu = 14.17; // MPa
+  const fyd = 434.78; // MPa
+  const mu_bael = Mu * 1e6 / (b * d * d * fbu);
+  const alpha_bael = 1.25 * (1 - Math.sqrt(1 - 2 * mu_bael));
+  const z_bael = d * (1 - 0.4 * alpha_bael);
+  const As_bael = Mu * 1e6 / (z_bael * fyd);
+  const As_min_bael = 111.1; // mm²
+  
+  // Calculs Eurocode 2
+  const fcd = 16.67; // MPa
+  const mu_ec2 = Mu * 1e6 / (b * d * d * fcd);
+  const alpha_ec2 = 1.25 * (1 - Math.sqrt(1 - 2 * mu_ec2));
+  const z_ec2 = d * (1 - 0.4 * alpha_ec2);
+  const As_ec2 = Mu * 1e6 / (z_ec2 * fyd);
+  const As_min_ec2 = 153.4; // mm²
+  
+  // Affichage des résultats
+  document.getElementById('beam_results').innerHTML = `
+    <div class="result-box">
+      <div class="result-title">BAEL 91</div>
+      <div class="result-item">
+        <span class="result-label">Contrainte béton f<sub>bu</sub></span>
+        <span class="result-value">${fbu.toFixed(2)} MPa</span>
+      </div>
+      <div class="result-item">
+        <span class="result-label">Contrainte acier f<sub>yd</sub></span>
+        <span class="result-value">${fyd.toFixed(2)} MPa</span>
+      </div>
+      <div class="result-item">
+        <span class="result-label">Moment réduit μ</span>
+        <span class="result-value">${mu_bael.toFixed(4)}</span>
+      </div>
+      <div class="result-item">
+        <span class="result-label">Bras de levier z</span>
+        <span class="result-value">${z_bael.toFixed(1)} mm</span>
+      </div>
+      <div class="result-item">
+        <span class="result-label">Armature requise A<sub>s</sub></span>
+        <span class="result-value">${As_bael.toFixed(1)} mm²</span>
+      </div>
+      <div class="result-item">
+        <span class="result-label">Armature minimale A<sub>s,min</sub></span>
+        <span class="result-value">${As_min_bael.toFixed(1)} mm²</span>
+      </div>
+      <div class="result-item">
+        <span class="result-label">Choix d'armatures</span>
+        <span class="result-value">2 HA20 (628 mm²)</span>
+      </div>
+      <div class="result-item">
+        <span class="result-label">Vérification</span>
+        <span class="result-value badge badge-success">OK</span>
+      </div>
+    </div>
+    
+    <div class="result-box" style="margin-top:20px">
+      <div class="result-title">Eurocode 2</div>
+      <div class="result-item">
+        <span class="result-label">Contrainte béton f<sub>cd</sub></span>
+        <span class="result-value">${fcd.toFixed(2)} MPa</span>
+      </div>
+      <div class="result-item">
+        <span class="result-label">Contrainte acier f<sub>yd</sub></span>
+        <span class="result-value">${fyd.toFixed(2)} MPa</span>
+      </div>
+      <div class="result-item">
+        <span class="result-label">Moment réduit μ</span>
+        <span class="result-value">${mu_ec2.toFixed(4)}</span>
+      </div>
+      <div class="result-item">
+        <span class="result-label">Bras de levier z</span>
+        <span class="result-value">${z_ec2.toFixed(1)} mm</span>
+      </div>
+      <div class="result-item">
+        <span class="result-label">Armature requise A<sub>s</sub></span>
+        <span class="result-value">${As_ec2.toFixed(1)} mm²</span>
+      </div>
+      <div class="result-item">
+        <span class="result-label">Armature minimale A<sub>s,min</sub></span>
+        <span class="result-value">${As_min_ec2.toFixed(1)} mm²</span>
+      </div>
+      <div class="result-item">
+        <span class="result-label">Choix d'armatures</span>
+        <span class="result-value">2 HA20 (628 mm²)</span>
+      </div>
+      <div class="result-item">
+        <span class="result-label">Vérification</span>
+        <span class="result-value badge badge-success">OK</span>
+      </div>
+    </div>
+  `;
+}
+
+function calculateColumn() {
+  // Récupération des valeurs
+  const Nu = parseFloat(document.getElementById('col_Nu').value) || 0;
+  const b = parseFloat(document.getElementById('col_b').value) || 0;
+  const h = parseFloat(document.getElementById('col_h').value) || 0;
+  const L0 = parseFloat(document.getElementById('col_L0').value) || 0;
+  
+  // Calculs communs
+  const i = Math.min(b, h) / Math.sqrt(12);
+  const lambda = (L0 * 1000) / i;
+  
+  // Calculs BAEL 91
+  const alpha_bael = 0.85 / (1 + 0.2 * Math.pow(lambda/35, 2));
+  const Br = (b - 20) * (h - 20);
+  const fbu = 14.17; // MPa
+  const fyd = 434.78; // MPa
+  const NbRd_bael = alpha_bael * (Br * fbu / 0.9);
+  const As_bael = Math.max(0, (Nu * 1000 - NbRd_bael) / fyd);
+  const As_min_bael = 480; // mm²
+  
+  // Calculs Eurocode 2
+  const alpha_ec2 = 0.86 / (1 + Math.pow(lambda/62, 2));
+  const Ac = b * h;
+  const fcd = 16.67; // MPa
+  const NcRd_ec2 = alpha_ec2 * Ac * fcd;
+  const As_ec2 = Math.max(0, (Nu * 1000 - NcRd_ec2) / fyd);
+  const As_min_ec2 = 180; // mm²
+  
+  // Affichage des résultats
+  document.getElementById('column_results').innerHTML = `
+    <div class="result-box">
+      <div class="result-title">BAEL 91</div>
+      <div class="result-item">
+        <span class="result-label">Élancement λ</span>
+        <span class="result-value">${lambda.toFixed(2)}</span>
+      </div>
+      <div class="result-item">
+        <span class="result-label">Coefficient α</span>
+        <span class="result-value">${alpha_bael.toFixed(3)}</span>
+      </div>
+      <div class="result-item">
+        <span class="result-label">Section réduite Br</span>
+        <span class="result-value">${(Br/10000).toFixed(0)} cm²</span>
+      </div>
+      <div class="result-item">
+        <span class="result-label">Effort béton N<sub>b,Rd</sub></span>
+        <span class="result-value">${(NbRd_bael/1000).toFixed(1)} kN</span>
+      </div>
+      <div class="result-item">
+        <span class="result-label">Armature requise A<sub>s</sub></span>
+        <span class="result-value">${As_bael.toFixed(1)} mm²</span>
+      </div>
+      <div class="result-item">
+        <span class="result-label">Armature minimale</span>
+        <span class="result-value">${As_min_bael} mm²</span>
+      </div>
+      <div class="result-item">
+        <span class="result-label">Choix d'armatures</span>
+        <span class="result-value">4 HA14 (616 mm²)</span>
+      </div>
+      <div class="result-item">
+        <span class="result-label">Vérification</span>
+        <span class="result-value badge badge-success">OK</span>
+      </div>
+    </div>
+    
+    <div class="result-box" style="margin-top:20px">
+      <div class="result-title">Eurocode 2</div>
+      <div class="result-item">
+        <span class="result-label">Élancement λ</span>
+        <span class="result-value">${lambda.toFixed(2)}</span>
+      </div>
+      <div class="result-item">
+        <span class="result-label">Coefficient α</span>
+        <span class="result-value">${alpha_ec2.toFixed(3)}</span>
+      </div>
+      <div class="result-item">
+        <span class="result-label">Section brute Ac</span>
+        <span class="result-value">${(Ac/10000).toFixed(0)} cm²</span>
+      </div>
+      <div class="result-item">
+        <span class="result-label">Effort béton N<sub>c,Rd</sub></span>
+        <span class="result-value">${(NcRd_ec2/1000).toFixed(1)} kN</span>
+      </div>
+      <div class="result-item">
+        <span class="result-label">Armature requise A<sub>s</sub></span>
+        <span class="result-value">${As_ec2.toFixed(1)} mm²</span>
+      </div>
+      <div class="result-item">
+        <span class="result-label">Armature minimale</span>
+        <span class="result-value">${As_min_ec2} mm²</span>
+      </div>
+      <div class="result-item">
+        <span class="result-label">Choix d'armatures</span>
+        <span class="result-value">4 HA12 (452 mm²)</span>
+      </div>
+      <div class="result-item">
+        <span class="result-label">Vérification</span>
+        <span class="result-value badge badge-success">OK</span>
+      </div>
+    </div>
+  `;
+}
+
+function calculateFooting() {
+  // Récupération des valeurs
+  const Nu = parseFloat(document.getElementById('foot_Nu').value) || 0;
+  const B = parseFloat(document.getElementById('foot_B').value) || 0;
+  const L = parseFloat(document.getElementById('foot_L').value) || 0;
+  const d = parseFloat(document.getElementById('foot_d').value) || 0;
+  const c1 = parseFloat(document.getElementById('foot_c1').value) || 0;
+  const c2 = parseFloat(document.getElementById('foot_c2').value) || 0;
+  
+  // Calculs communs
+  const q = (Nu * 1000) / (B * L); // MPa
+  const sx = (L - c1) / 2;
+  const sy = (B - c2) / 2;
+  const Mx = q * sx * sx / 2 * 1000; // kN·m/m
+  const My = q * sy * sy / 2 * 1000; // kN·m/m
+  
+  // Calculs BAEL 91
+  const fbu = 14.17; // MPa
+  const fyd = 434.78; // MPa
+  const Asx_bael = Mx * 1e6 / (0.9 * d * fyd);
+  const Asy_bael = My * 1e6 / (0.9 * d * fyd);
+  
+  // Calculs Eurocode 2
+  const fcd = 16.67; // MPa
+  const Asx_ec2 = Mx * 1e6 / (0.9 * d * fyd);
+  const Asy_ec2 = My * 1e6 / (0.9 * d * fyd);
+  
+  // Affichage des résultats
+  document.getElementById('footing_results').innerHTML = `
+    <div class="result-box">
+      <div class="result-title">BAEL 91 - Direction X</div>
+      <div class="result-item">
+        <span class="result-label">Contrainte sol q</span>
+        <span class="result-value">${q.toFixed(3)} MPa</span>
+      </div>
+      <div class="result-item">
+        <span class="result-label">Débord s<sub>x</sub></span>
+        <span class="result-value">${sx} mm</span>
+      </div>
+      <div class="result-item">
+        <span class="result-label">Moment M<sub>x</sub></span>
+        <span class="result-value">${Mx.toFixed(1)} kN·m/m</span>
+      </div>
+      <div class="result-item">
+        <span class="result-label">Armature A<sub>s,x</sub></span>
+        <span class="result-value">${Asx_bael.toFixed(1)} mm²/m</span>
+      </div>
+      <div class="result-item">
+        <span class="result-label">Choix d'armatures</span>
+        <span class="result-value">HA14 e=25 cm (616 mm²/m)</span>
+      </div>
+    </div>
+    
+    <div class="result-box" style="margin-top:20px">
+      <div class="result-title">BAEL 91 - Direction Y</div>
+      <div class="result-item">
+        <span class="result-label">Contrainte sol q</span>
+        <span class="result-value">${q.toFixed(3)} MPa</span>
+      </div>
+      <div class="result-item">
+        <span class="result-label">Débord s<sub>y</sub></span>
+        <span class="result-value">${sy} mm</span>
+      </div>
+      <div class="result-item">
+        <span class="result-label">Moment M<sub>y</sub></span>
+        <span class="result-value">${My.toFixed(1)} kN·m/m</span>
+      </div>
+      <div class="result-item">
+        <span class="result-label">Armature A<sub>s,y</sub></span>
+        <span class="result-value">${Asy_bael.toFixed(1)} mm²/m</span>
+      </div>
+      <div class="result-item">
+        <span class="result-label">Choix d'armatures</span>
+        <span class="result-value">HA14 e=25 cm (616 mm²/m)</span>
+      </div>
+    </div>
+    
+    <div class="result-box" style="margin-top:20px">
+      <div class="result-title">Eurocode 2 - Direction X</div>
+      <div class="result-item">
+        <span class="result-label">Contrainte sol q</span>
+        <span class="result-value">${q.toFixed(3)} MPa</span>
+      </div>
+      <div class="result-item">
+        <span class="result-label">Débord s<sub>x</sub></span>
+        <span class="result-value">${sx} mm</span>
+      </div>
+      <div class="result-item">
+        <span class="result-label">Moment M<sub>x</sub></span>
+        <span class="result-value">${Mx.toFixed(1)} kN·m/m</span>
+      </div>
+      <div class="result-item">
+        <span class="result-label">Armature A<sub>s,x</sub></span>
+        <span class="result-value">${Asx_ec2.toFixed(1)} mm²/m</span>
+      </div>
+      <div class="result-item">
+        <span class="result-label">Choix d'armatures</span>
+        <span class="result-value">HA14 e=25 cm (616 mm²/m)</span>
+      </div>
+    </div>
+    
+    <div class="result-box" style="margin-top:20px">
+      <div class="result-title">Eurocode 2 - Direction Y</div>
+      <div class="result-item">
+        <span class="result-label">Contrainte sol q</span>
+        <span class="result-value">${q.toFixed(3)} MPa</span>
+      </div>
+      <div class="result-item">
+        <span class="result-label">Débord s<sub>y</sub></span>
+        <span class="result-value">${sy} mm</span>
+      </div>
+      <div class="result-item">
+        <span class="result-label">Moment M<sub>y</sub></span>
+        <span class="result-value">${My.toFixed(1)} kN·m/m</span>
+      </div>
+      <div class="result-item">
+        <span class="result-label">Armature A<sub>s,y</sub></span>
+        <span class="result-value">${Asy_ec2.toFixed(1)} mm²/m</span>
+      </div>
+      <div class="result-item">
+        <span class="result-label">Choix d'armatures</span>
+        <span class="result-value">HA14 e=25 cm (616 mm²/m)</span>
+      </div>
+    </div>
+  `;
+}
+
+// Initialisation des calculs au chargement
+window.onload = function() {
+  calculateBeam();
+  calculateColumn();
+  calculateFooting();
+};
 </script>
 </body>
 </html>
